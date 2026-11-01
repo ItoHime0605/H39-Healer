@@ -1,4 +1,4 @@
-name: Java 21 pulse tests
+name: Java 21 isolated logic tests
 on:
   push:
   pull_request:
@@ -12,8 +12,15 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Compile and run isolated Java logic
+      - name: Compile isolated Java logic
         run: |
           mkdir -p build/test-classes
-          javac -encoding UTF-8 -d build/test-classes src/main/java/tw/h39/compat/H39PulseSchedule.java src/test/java/tw/h39/compat/H39PulseScheduleTest.java
-          java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
+          javac -encoding UTF-8 -d build/test-classes \
+            src/main/java/tw/h39/compat/H39PulseSchedule.java \
+            src/main/java/tw/h39/compat/H39TubeMagazine.java \
+            src/test/java/tw/h39/compat/H39PulseScheduleTest.java \
+            src/test/java/tw/h39/compat/H39TubeMagazineTest.java
+      - name: Verify pulse schedule
+        run: java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
+      - name: Verify four-tube reload mechanics
+        run: java -cp build/test-classes tw.h39.compat.H39TubeMagazineTest
