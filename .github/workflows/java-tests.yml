@@ -1,0 +1,19 @@
+name: Java 21 pulse tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and run isolated Java logic
+        run: |
+          mkdir -p build/test-classes
+          javac -encoding UTF-8 -d build/test-classes src/main/java/tw/h39/compat/H39PulseSchedule.java src/test/java/tw/h39/compat/H39PulseScheduleTest.java
+          java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
