@@ -13,7 +13,7 @@ Meds and Herbs 1.2.1 JAR 的 `neoforge.mods.toml` 確認模組 ID 為 `meds_and_
 
 ## 尚未解決的風險
 
-1. 目前 `H39MedicalHitHandler` 使用 `Post`。若 0.5 HP 的槍傷先殺死目標，`!target.isAlive()` 會讓治療無法發生。
+1. **已確認為預期設計，非 BUG：** H-39 使用 `Post` 命中後治療。0.5 HP 穿刺傷害先結算；如果目標因此死亡，就維持死亡、不治療也不復活。只有仍存活的目標才獲得即時及持續治療。
 2. 尚未證實 `meds_and_herbs` 六種效果的實際註冊 ID 全部與字串相符；需核對登錄類別。
 3. 不死生物受到額外 `hurt()` 時，可能受 Minecraft 無敵幀影響；必須在遊戲內測試。
 4. 槍包的 `data`、`display`、材質、動畫與完整換彈邏輯仍不完整。
