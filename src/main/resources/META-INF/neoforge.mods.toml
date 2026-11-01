@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="h39medical"
+version="0.1.0-alpha"
+displayName="H-39 治癒者醫療聯動"
+description="TaCZ H-39 medical impact compatibility prototype."
+
+[[dependencies.h39medical]]
+modId="neoforge"
+type="required"
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.h39medical]]
+modId="tacz"
+type="required"
+versionRange="[1.1,)"
+ordering="AFTER"
+side="BOTH"
