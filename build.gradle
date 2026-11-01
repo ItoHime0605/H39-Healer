@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
+}
+version = mod_version
+group = 'tw.h39.compat'
+base { archivesName = mod_id }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+repositories { flatDir { dirs 'libs' } }
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+    compileOnly files('libs/tacz.jar')
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
