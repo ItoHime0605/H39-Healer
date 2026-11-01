@@ -1,0 +1,36 @@
+name: H-39 source validation
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Validate Java runtime
+        run: java -version
+      - name: Validate JSON resources
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          paths = list(Path('.').rglob('*.json'))
+          for path in paths:
+              with path.open(encoding='utf-8') as f:
+                  json.load(f)
+          print(f'Validated {len(paths)} JSON files')
+          PY
+      - name: Run Python prototype tests when present
+        shell: bash
+        run: |
+          if [ -d tools ]; then
+            python3 -m unittest discover -s tools -p 'test_*.py' -v
+          else
+            echo 'Prototype tests not uploaded yet'
+          fi
