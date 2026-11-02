@@ -1,0 +1,8 @@
+{
+  "model": "h39:gun/h39_geo",
+  "texture": "h39:gun/uv/h39",
+  "animation": "h39:h39",
+  "state_machine": "tacz:closed_bolt_state_machine",
+  "use_default_animation": "rifle",
+  "iron_zoom": 2
+}
