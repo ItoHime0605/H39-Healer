@@ -8,5 +8,6 @@ public final class H39MedicalCompat {
 
     public H39MedicalCompat() {
         H39MedicalHitHandler.register();
+        H39TaCZAmmoEvents.register();
     }
 }
