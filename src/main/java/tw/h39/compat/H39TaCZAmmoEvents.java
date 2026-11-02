@@ -71,6 +71,8 @@ public final class H39TaCZAmmoEvents {
         for (ItemStack stack : player.getInventory().items) {
             if (isMedicalTube(stack)) available += stack.getCount();
         }
+        // The offhand slot is not included in Inventory.items; only count
+        // slots that will actually be consumed below.
 
         H39ReloadPlan.Plan plan = H39ReloadPlan.calculate(
                 counter.rounds(), player.getAbilities().instabuild ? 4 : available);
@@ -78,6 +80,13 @@ public final class H39TaCZAmmoEvents {
 
         int remaining = plan.tubesToConsume();
         if (!player.getAbilities().instabuild) {
+            // The plan and inventory mutation run on the server thread.
+            // Verify sufficient matching items again before touching any stack.
+            int stillAvailable = 0;
+            for (ItemStack stack : player.getInventory().items) {
+                if (isMedicalTube(stack)) stillAvailable += stack.getCount();
+            }
+            if (stillAvailable < remaining) return;
             for (ItemStack stack : player.getInventory().items) {
                 if (remaining == 0) break;
                 if (!isMedicalTube(stack)) continue;
