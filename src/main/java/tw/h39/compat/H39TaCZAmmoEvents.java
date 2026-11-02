@@ -72,7 +72,8 @@ public final class H39TaCZAmmoEvents {
             if (isMedicalTube(stack)) available += stack.getCount();
         }
 
-        H39ReloadPlan.Plan plan = H39ReloadPlan.calculate(counter.rounds(), available);
+        H39ReloadPlan.Plan plan = H39ReloadPlan.calculate(
+                counter.rounds(), player.getAbilities().instabuild ? 4 : available);
         if (!plan.shouldReload()) return;
 
         int remaining = plan.tubesToConsume();
