@@ -19,12 +19,16 @@ jobs:
             src/main/java/tw/h39/compat/H39PulseSchedule.java \
             src/main/java/tw/h39/compat/H39AmmoCounter.java \
             src/main/java/tw/h39/compat/H39AmmoState.java \
+            src/main/java/tw/h39/compat/H39ReloadPlan.java \
             src/test/java/tw/h39/compat/H39PulseScheduleTest.java \
             src/test/java/tw/h39/compat/H39AmmoCounterTest.java \
-            src/test/java/tw/h39/compat/H39AmmoStateTest.java
+            src/test/java/tw/h39/compat/H39AmmoStateTest.java \
+            src/test/java/tw/h39/compat/H39ReloadPlanTest.java
       - name: Verify pulse schedule
         run: java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
       - name: Verify simplified shared ammunition
         run: java -cp build/test-classes tw.h39.compat.H39AmmoCounterTest
       - name: Verify shared ammo persistence and visible tubes
         run: java -cp build/test-classes tw.h39.compat.H39AmmoStateTest
+      - name: Verify physical five-shot tube reload planning
+        run: java -cp build/test-classes tw.h39.compat.H39ReloadPlanTest
