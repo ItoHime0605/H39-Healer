@@ -12,3 +12,5 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tools -p 'test_*.py' -v
+      - name: Verify H-39 gun and recipe data
+        run: python tools/test_h39_gun_data.py
