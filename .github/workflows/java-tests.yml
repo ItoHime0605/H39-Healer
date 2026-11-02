@@ -19,7 +19,7 @@ jobs:
             src/main/java/tw/h39/compat/H39PulseSchedule.java \
             src/main/java/tw/h39/compat/H39AmmoCounter.java \
             src/test/java/tw/h39/compat/H39PulseScheduleTest.java \
-            src/test/java/tw/h39/compat/H39AmmoCounterTest.java \
+            src/test/java/tw/h39/compat/H39AmmoCounterTest.java
       - name: Verify pulse schedule
         run: java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
       - name: Verify simplified shared ammunition
