@@ -14,3 +14,15 @@
 ## 待驗證
 
 需核對實際 TaCZ 1.1.8 Hotfix R7 的射擊、換彈及槍包顯示 API，完成 NeoForge JAR 編譯與遊戲內測試。
+
+## 2026-11-03 新增候選檔案與重要限制
+
+已加入 `data/h39/data/guns/h39_data.json`、`assets/h39/display/guns/h39_display.json`、`data/h39/recipe/ammo/medical_tube.json`，並加入靜態檢查腳本。
+
+**這些是待遊戲驗證的 TaCZ 候選 JSON，不是可用槍包。** 目前缺少顯示 JSON 指向的模型、貼圖與動畫資產。
+
+### 彈藥整合尚待解決
+
+目前 TaCZ `IGun#getCurrentAmmoCount(ItemStack)`、`GunFireEvent`、`GunFinishReloadEvent` 的存在已透過使用者提供的 TaCZ JAR 以 `javap` 核對。Java 事件橋接已註冊，提供從 TaCZ 原生彈數取得 `10/20` 和可見藥管數的輔助方法；**尚未將模型骨架連到這些方法，也沒有實作五發一管的實際背包消耗**。事件處理器目前只讀取狀態，不會改變 TaCZ 的射擊或換彈結果。
+
+候選配方產出一個 `h39:medical_tube` 道具，但 **TaCZ 預設換彈不一定會將一個彈藥物品轉換為五發**。必須先實作並驗證此轉換，才能宣稱符合一管五發。不能以候選配方或 20 發彈匣設定代替該功能。
