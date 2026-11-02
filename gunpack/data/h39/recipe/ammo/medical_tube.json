@@ -1,0 +1,47 @@
+{
+  "type": "tacz:gun_smith_table_crafting",
+  "materials": [
+    {
+      "item": {
+        "item": "meds_and_herbs:aloe_leaf"
+      },
+      "count": 5
+    },
+    {
+      "item": {
+        "item": "meds_and_herbs:chamomile"
+      },
+      "count": 5
+    },
+    {
+      "item": {
+        "item": "meds_and_herbs:plantago_leaf"
+      },
+      "count": 5
+    },
+    {
+      "item": {
+        "item": "meds_and_herbs:glass_tube"
+      },
+      "count": 2
+    },
+    {
+      "item": {
+        "item": "minecraft:glistering_melon_slice"
+      },
+      "count": 5
+    },
+    {
+      "item": {
+        "item": "minecraft:iron_ingot"
+      },
+      "count": 1
+    }
+  ],
+  "result": {
+    "type": "ammo",
+    "group": "h39_medical",
+    "id": "h39:medical_tube",
+    "count": 1
+  }
+}
