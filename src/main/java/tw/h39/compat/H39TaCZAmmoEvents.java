@@ -51,6 +51,8 @@ public final class H39TaCZAmmoEvents {
     public static void onFire(GunFireEvent event) {
         if (event.getLogicalSide() != LogicalSide.SERVER) return;
         // TaCZ owns the actual shot and ammo decrement. No second decrement.
+        // Event is cancellable and may fire before TaCZ decrements ammo.
+        // Never cache the count here: renderers must query the live ItemStack.
         read(event.getGunItemStack());
     }
 
