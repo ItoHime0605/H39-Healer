@@ -35,6 +35,18 @@ public final class H39TaCZAmmoEvents {
         return new H39AmmoCounter(current);
     }
 
+    /** Front-to-back tube count for a client-side model adapter; -1 means not H-39. */
+    public static int visibleTubes(ItemStack stack) {
+        H39AmmoCounter counter = read(stack);
+        return counter == null ? -1 : counter.visibleTubes();
+    }
+
+    /** Returns HUD text only for the H-39; TaCZ remains the ammo authority. */
+    public static String hud(ItemStack stack) {
+        H39AmmoCounter counter = read(stack);
+        return counter == null ? null : counter.hud();
+    }
+
     @SubscribeEvent
     public static void onFire(GunFireEvent event) {
         if (event.getLogicalSide() != LogicalSide.SERVER) return;
