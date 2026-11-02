@@ -1,6 +1,6 @@
 {
   "name": "h39.ammo.medical_tube.name",
   "display": "h39:medical_tube_display",
-  "type": "ammo",
+  "stack_size": 64,
   "sort": 1
 }
