@@ -18,9 +18,13 @@ jobs:
           javac -encoding UTF-8 -d build/test-classes \
             src/main/java/tw/h39/compat/H39PulseSchedule.java \
             src/main/java/tw/h39/compat/H39TubeMagazine.java \
+            src/main/java/tw/h39/compat/H39TubeStateCodec.java \
             src/test/java/tw/h39/compat/H39PulseScheduleTest.java \
-            src/test/java/tw/h39/compat/H39TubeMagazineTest.java
+            src/test/java/tw/h39/compat/H39TubeMagazineTest.java \
+            src/test/java/tw/h39/compat/H39TubeStateCodecTest.java
       - name: Verify pulse schedule
         run: java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
       - name: Verify four-tube reload mechanics
         run: java -cp build/test-classes tw.h39.compat.H39TubeMagazineTest
+      - name: Verify weapon state persistence codec
+        run: java -cp build/test-classes tw.h39.compat.H39TubeStateCodecTest
