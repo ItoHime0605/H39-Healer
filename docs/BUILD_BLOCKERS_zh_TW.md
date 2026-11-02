@@ -29,3 +29,16 @@
 - 加入資源與遊戲內測試後，才交付正式 JAR。
 
 使用者目前不必再上傳相同的 TaCZ 或 Meds and Herbs JAR。
+
+## 2026-11-03 實際 JAR 驗證補充
+
+已以 `javap -c -p` 檢查使用者提供的 Meds and Herbs 1.2.1 JAR 內 `com.plank.meds_and_herbs.init.Effects` 的註冊字串，**六種傷勢效果 ID 全部確認存在**：
+
+- `meds_and_herbs:bleeding`
+- `meds_and_herbs:internal_bleeding`
+- `meds_and_herbs:blood_loss`
+- `meds_and_herbs:burns`
+- `meds_and_herbs:laceration`
+- `meds_and_herbs:bone_fracture`
+
+`GunReloadEvent` 已從修改版 TaCZ JAR 驗證為 `ICancellableEvent`；`IGun` 的讀取與寫入目前彈數方法也已核對。這些仍不等於完整 NeoForge 編譯成功。
