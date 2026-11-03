@@ -18,7 +18,8 @@ assert gun["bullet"]["damage"] == 0.5
 # enough to remain useful for mid-to-long-range teammate support.
 assert gun["bullet"]["speed"] == 200
 assert gun["bullet"]["life"] == 1.5
-assert gun["bullet"]["gravity"] == 0.15
+assert gun["bullet"]["gravity"] == 0.03
+assert 0 < gun["bullet"]["gravity"] < 0.15  # Slight arc, not a straight hitscan projectile
 assert gun["bullet"]["speed"] < 270
 
 assert gun["bullet"]["extra_damage"]["damage_adjust"][0]["distance"] == "infinite"
