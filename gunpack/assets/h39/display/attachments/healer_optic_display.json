@@ -1,0 +1,23 @@
+{
+  "slot": "h39:attachment/slot/healer_optic",
+  "model": "h39:attachment/healer_optic_geo",
+  "texture": "h39:attachment/uv/healer_optic",
+  "zoom": [
+    2,
+    4,
+    6
+  ],
+  "views": [
+    2,
+    2,
+    2
+  ],
+  "views_fov": [
+    45,
+    35,
+    25
+  ],
+  "show_mount": false,
+  "scope": true,
+  "sight": false
+}
