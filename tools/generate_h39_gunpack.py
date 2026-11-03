@@ -8,6 +8,8 @@ Examples:
     python3 tools/generate_h39_gunpack.py --zip dist/H39-Healer-Gunpack.zip
 """
 import argparse
+import subprocess
+import sys
 import shutil
 import struct
 import zlib
@@ -142,6 +144,10 @@ def stage(target):
         shutil.rmtree(pack)
     shutil.copytree(SOURCE, pack)
     create_png_files(pack)
+    subprocess.run([
+        sys.executable, str(ROOT / "tools/generate_h39_sounds.py"),
+        str(pack / "assets/h39/tacz_sounds/h39")
+    ], check=True)
     # The directory should be a gunpack root, not contain an outer /gunpack folder.
     assert (pack / "gunpack.meta.json").is_file()
     return pack
