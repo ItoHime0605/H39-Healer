@@ -52,6 +52,23 @@ class AnimationCompatibilityTests(unittest.TestCase):
                     actual = state["medical_tube_" + str(index)]["scale"]
                     self.assertEqual(actual, [1, 1, 1] if index > 4 - count else [0, 0, 0])
 
+    def test_spent_tube_ejection_only_after_single_shot(self):
+        script = (ROOT / "assets/h39/scripts/h39_state_machine.lua").read_text(encoding="utf-8")
+        # Guard against a model jumping several rounds during login/sync.
+        self.assertIn("rounds == state.last_rounds - 1", script)
+        self.assertNotIn("rounds < state.last_rounds then", script)
+
+        def count(rounds):
+            return (rounds + 4) // 5
+
+        def eject(previous, current):
+            return previous >= 0 and current == previous - 1 and count(current) < count(previous)
+
+        fired = [(before, before - 1) for before in range(20, 0, -1)]
+        self.assertEqual([before for before, after in fired if eject(before, after)], [16, 11, 6, 1])
+        for before, after in [(-1, 0), (0, 20), (10, 20), (20, 10), (15, 0), (19, 16)]:
+            self.assertFalse(eject(before, after), f"unexpected tube ejection {before}->{after}")
+
     def test_no_recoil_physical_gun_kick(self):
         shoot = self.animations["shoot"]["bones"]["root"]
         self.assertTrue(all(

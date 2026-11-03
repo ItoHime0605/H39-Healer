@@ -41,7 +41,10 @@ function tube_state.update(this, context)
 
     -- Only eject when a shot crosses 16->15, 11->10, 6->5, or 1->0.
     -- Reload or switching weapons must NEVER eject a tube.
-    if state.last_rounds >= 0 and rounds < state.last_rounds then
+    -- A real semi-auto shot consumes exactly one round. Creative commands,
+    -- inventory corrections or delayed server sync can jump multiple rounds;
+    -- those changes must not produce phantom empty tubes.
+    if state.last_rounds >= 0 and rounds == state.last_rounds - 1 then
         if tube_count(rounds) < tube_count(state.last_rounds) then
             context:popShellFrom(0)
         end
