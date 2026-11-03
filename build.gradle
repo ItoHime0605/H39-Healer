@@ -2,13 +2,48 @@ plugins {
     id 'java-library'
     id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
+
 version = mod_version
 group = 'tw.h39.compat'
 base { archivesName = mod_id }
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-repositories { flatDir { dirs 'libs' } }
+
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Modrinth'
+                url = uri('https://api.modrinth.com/maven')
+            }
+        }
+        filter { includeGroup 'maven.modrinth' }
+    }
+    flatDir { dirs 'libs' }
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-    compileOnly files('libs/tacz.jar')
+    // Official public TaCZ 1.21.1 NeoForge hotfix-r7 release.
+    // User's modified local TaCZ is NOT uploaded to this public repository.
+    compileOnly 'maven.modrinth:OypNE65K:62q6mB5Q'
 }
-tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+def generatedGunpack = layout.buildDirectory.dir('generated/h39-resources')
+
+tasks.register('generateH39Gunpack', Exec) {
+    commandLine 'python3', 'tools/generate_h39_gunpack.py',
+            '--output', generatedGunpack.get().asFile.absolutePath
+    inputs.dir('gunpack')
+    inputs.file('tools/generate_h39_gunpack.py')
+    outputs.dir(generatedGunpack)
+}
+
+sourceSets.main.resources.srcDir(generatedGunpack)
+tasks.named('processResources').configure {
+    dependsOn tasks.named('generateH39Gunpack')
+}
