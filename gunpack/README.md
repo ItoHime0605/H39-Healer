@@ -36,6 +36,6 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 
 目前原創模型、貼圖與動畫已有來源及產生方式，**但藥管骨骼依照即時彈數隱藏、射擊每第五發拋管、2×／4×／6× 瞄準鏡切換及換彈動畫同步尚未完成整合**。
 換彈事件已有 NeoForge／TaCZ 候選程式，還須通過完整編譯與遊戲內驗證；不能以純邏輯測試取代實測。
-JAR 內嵌槍包是否會被 TaCZ 自動偵測也必須實測。若不行，另附獨立槍包 ZIP。
+模組主類別已呼叫 TaCZ 官方提供的 `ResourceManager.registerExportResource`，將 JAR 的 `/assets/tacz/custom/h39_healer` 登記成額外槍包來源；TaCZ 的 `GunPackLoader` 會於首次載入將其匯出至遊戲目錄下 `tacz/h39_healer`，然後掃描。這條整合路徑已由 TaCZ R7 位元碼核對，但仍需實際遊戲驗證。若玩家在 TaCZ 設定啟用了覆寫／禁止初次匯出選項，則可能需要使用獨立槍包 ZIP。
 
 所有第三方 TaCZ 與 Meds and Herbs JAR 均不會被上傳到公開 GitHub。
