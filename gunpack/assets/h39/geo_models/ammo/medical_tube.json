@@ -1,0 +1,95 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.h39_medical_tube",
+        "texture_width": 256,
+        "texture_height": 256,
+        "visible_bounds_width": 2,
+        "visible_bounds_height": 2.5,
+        "visible_bounds_offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -1,
+                -1,
+                -2.5
+              ],
+              "size": [
+                2,
+                2,
+                5
+              ],
+              "uv": [
+                0,
+                88
+              ]
+            },
+            {
+              "origin": [
+                -1.15,
+                -1.15,
+                -3
+              ],
+              "size": [
+                2.3,
+                2.3,
+                0.65
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -1.15,
+                -1.15,
+                2.35
+              ],
+              "size": [
+                2.3,
+                2.3,
+                0.65
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            },
+            {
+              "origin": [
+                -0.8,
+                1.05,
+                -2
+              ],
+              "size": [
+                1.6,
+                0.2,
+                4
+              ],
+              "uv": [
+                0,
+                176
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
