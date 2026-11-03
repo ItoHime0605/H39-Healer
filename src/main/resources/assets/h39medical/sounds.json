@@ -1,0 +1,12 @@
+{
+  "pneumatic_shot": {
+    "subtitle": "subtitles.h39medical.pneumatic_shot",
+    "sounds": [
+      {
+        "name": "h39medical:pneumatic_shot",
+        "stream": false,
+        "volume": 1
+      }
+    ]
+  }
+}

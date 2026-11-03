@@ -23,15 +23,24 @@ def _noise(seed):
 def synthesize(kind, seconds, seed=0):
     rng = _noise(seed)
     samples = []
+    air_filtered = 0.0
     for i in range(int(RATE * seconds)):
         t = i / RATE
         n = rng.uniform(-1.0, 1.0)
         if kind == "shot":
-            # Short valve pop, escaping air, then low resonant thump.
-            pop = math.exp(-t * 95.0) * math.sin(TAU * (185 - 75 * t) * t)
-            hiss = math.exp(-t * 24.0) * n
-            resonance = math.sin(TAU * 320 * t) * math.exp(-t * 31)
-            val = 0.43 * hiss + 0.36 * pop + 0.11 * resonance
+            # Audible compressed-air "POMF-shyooo":
+            # 0-45 ms: heavy pneumatic valve pop (not a gunpowder explosion).
+            # 30-440 ms: pressurized air rush and descending narrow whistle.
+            pop = math.exp(-t * 46.0) * (
+                0.80 * math.sin(TAU * (130 * t - 45 * t * t))
+                + 0.40 * math.sin(TAU * 290 * t))
+            after = max(0.0, t - 0.030)
+            air_filtered = 0.58 * air_filtered + 0.42 * n
+            air_envelope = (1.0 - math.exp(-after * 175.0)) * math.exp(-after * 10.5)
+            rush = air_envelope * (0.62 * n + 0.38 * air_filtered)
+            chirp = math.sin(TAU * (1250 * after - 760 * after * after))
+            whistle = air_envelope * chirp * 0.35
+            val = 0.60 * pop + 0.85 * rush + whistle
         elif kind == "remote_shot":
             # Less attack, more audible air plume for third-person playback.
             pop = math.exp(-t * 42) * math.sin(TAU * 134 * t)
@@ -78,7 +87,7 @@ def main():
     if not shutil.which("ffmpeg"):
         raise SystemExit("ffmpeg is required to generate original H-39 Ogg sounds")
     names = {
-        "h39_shoot": ("shot", 0.25, 0),
+        "h39_shoot": ("shot", 0.48, 0),
         "h39_shoot_3p": ("remote_shot", 0.3, 2),
         "h39_silence": ("quiet_shot", 0.22, 1),
         "h39_silence_3p": ("quiet_shot", 0.3, 3),

@@ -15,6 +15,9 @@ BASE = "assets/tacz/custom/h39_healer/"
 REQUIRED = {
     "META-INF/neoforge.mods.toml",
     "tw/h39/compat/H39MedicalCompat.class",
+    "tw/h39/compat/H39PneumaticAudio.class",
+    "assets/h39medical/sounds.json",
+    "assets/h39medical/sounds/pneumatic_shot.ogg",
     "tw/h39/compat/H39RuntimeDiagnostics.class",
     "tw/h39/compat/H39MedicalHitHandler.class",
     "tw/h39/compat/H39TaCZAmmoEvents.class",
@@ -67,6 +70,11 @@ def verify(path: Path):
             raise AssertionError("No project mod_version found")
         if f'version="{expected.group(1).strip()}"' not in meta:
             raise AssertionError("Built mod metadata version does not match gradle.properties")
+        import json
+        native = json.loads(archive.read("assets/h39medical/sounds.json"))
+        assert "pneumatic_shot" in native
+        assert native["pneumatic_shot"]["sounds"][0]["name"] == "h39medical:pneumatic_shot"
+        assert archive.read("assets/h39medical/sounds/pneumatic_shot.ogg")[:4] == b"OggS"
         for name in files:
             if name.startswith(BASE + "assets/h39/tacz_sounds/h39/") and name.endswith(".ogg"):
                 if not archive.read(name).startswith(b"OggS"):

@@ -182,6 +182,13 @@ def stage(target):
         sys.executable, str(ROOT / "tools/generate_h39_sounds.py"),
         str(pack / "assets/h39/tacz_sounds/h39")
     ], check=True)
+    # Always embed the confirmed shot sound as a native NeoForge resource as
+    # well. TaCZ's dynamically exported gunpack sometimes does not expose
+    # tacz_sounds to Minecraft's active sound resource manager.
+    native_sound = target / "assets/h39medical/sounds/pneumatic_shot.ogg"
+    native_sound.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(pack / "assets/h39/tacz_sounds/h39/h39_shoot.ogg",
+                    native_sound)
     # The directory should be a gunpack root, not contain an outer /gunpack folder.
     assert (pack / "gunpack.meta.json").is_file()
     return pack

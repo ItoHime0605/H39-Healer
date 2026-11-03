@@ -26,6 +26,12 @@ class GeneratedAssetsTests(unittest.TestCase):
                 "H-39 generator failed:\\n" + generated.stdout + "\\n" + generated.stderr
             )
 
+            # Native NeoForge sound is independent from TaCZ's exported pack.
+            native_ogg = out / "assets/h39medical/sounds/pneumatic_shot.ogg"
+            self.assertTrue(native_ogg.is_file())
+            self.assertEqual(native_ogg.read_bytes()[:4], b"OggS")
+            self.assertGreater(len(native_ogg.read_bytes()), 5000)
+
             pack = out / "assets/tacz/custom/h39_healer"
             self.assertEqual(
                 json.loads((pack / "gunpack.meta.json").read_text())["namespace"],
@@ -137,7 +143,12 @@ class GeneratedAssetsTests(unittest.TestCase):
                 self.assertEqual(path.read_bytes()[:4], b"OggS", name)
             self.assertEqual(len(list(sound_dir.glob("*.ogg"))), len(sound_ids))
             sounds = display["sounds"]
-            for name in sound_ids:
+            # Native on-server GunShootEvent owns all shots. No duplicate
+            # sounds from the dynamic TaCZ gunpack.
+            for key in ("shoot","shoot_3p","silence","silence_3p"):
+                self.assertNotIn(key, sounds)
+            for name in ("h39_draw","h39_put_away",
+                         "h39_reload_tactical","h39_reload_empty"):
                 self.assertIn("h39:h39/" + name, sounds.values())
 
             with zipfile.ZipFile(exported) as archive:
