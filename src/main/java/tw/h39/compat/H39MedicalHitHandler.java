@@ -51,7 +51,7 @@ public final class H39MedicalHitHandler {
 
         boolean undead = target.isInvertedHealAndHarm();
         if (undead) {
-            target.hurt(target.damageSources().magic(), 8.0F);
+            hurtUndead(target, 8.0F);
         } else {
             target.heal(8.0F);
             for (String id : TRAUMA) {
@@ -60,6 +60,10 @@ public final class H39MedicalHitHandler {
                         target.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)));
             }
         }
+
+        // The instant 8-HP undead hit may have killed its target. Do not
+        // create persistent 10-second state for a dead entity.
+        if (!target.isAlive()) return;
 
         // Re-hitting refreshes one effect window, never stacks duplicates.
         CompoundTag root = target.getPersistentData();
@@ -88,6 +92,24 @@ public final class H39MedicalHitHandler {
         }
     }
 
+    /**
+     * The 0.5-HP TaCZ needle hit normally starts damage invulnerability
+     * frames. Applying another 8 HP magic damage on the same tick would
+     * otherwise do ONLY the difference (usually 7.5), not the requested
+     * additional 8 HP. Clear that brief cooldown before the therapeutic
+     * anti-undead hit; Minecraft then establishes its normal new cooldown.
+     *
+     * The original cooldown is retained if a protection/event cancels this
+     * damage; no immunity should disappear after an unsuccessful hit.
+     */
+    private static void hurtUndead(LivingEntity target, float hp) {
+        int previous = target.invulnerableTime;
+        target.invulnerableTime = 0;
+        if (!target.hurt(target.damageSources().magic(), hp)) {
+            target.invulnerableTime = previous;
+        }
+    }
+
     @SubscribeEvent
     public void onEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
@@ -111,9 +133,15 @@ public final class H39MedicalHitHandler {
         if (!H39PulseSchedule.shouldPulse(now, next, end)) return;
 
         if (state.getBoolean("undead")) {
-            target.hurt(target.damageSources().magic(), 2.0F);
+            hurtUndead(target, 2.0F);
         } else {
             target.heal(2.0F);
+        }
+
+        if (!target.isAlive()) {
+            root.remove(ROOT);
+            ACTIVE.remove(target);
+            return;
         }
 
         long following = H39PulseSchedule.nextAfterPulse(now);
