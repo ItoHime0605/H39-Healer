@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.3-alpha
+# H-39 TaCZ 槍包｜0.1.4-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -29,7 +29,7 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 - 可見藥管數 `ceil(剩餘發數/5)`。
 - 一般生物：先由 TaCZ 造成 0.5 HP 穿刺，存活才治療 8 HP，並於 10 秒內每秒回復 2 HP。
 - 不死生物：轉為即時與持續傷害；不清除中毒或感染。
-- 氣動式藥管飛行速度 `bullet.speed=200`（低於原本 310）；`bullet.life=1.5` 保持中遠距離支援用途。
+- 氣動式藥管飛行速度 `bullet.speed=200`（低於原本 310）；`bullet.life=1.5` 保持中遠距離支援用途；針狀醫療彈重力由 `0.15` 降為 `0.03`，下墜更小。
 - 不再內建倍率切換，改為開放 TaCZ 的 `scope`、`laser`、`grip`、`muzzle` 選配類型，不開放擴充彈匣或特殊彈頭。
 
 ## 尚未完成／不得宣稱完成
