@@ -15,6 +15,7 @@ BASE = "assets/tacz/custom/h39_healer/"
 REQUIRED = {
     "META-INF/neoforge.mods.toml",
     "tw/h39/compat/H39MedicalCompat.class",
+    "tw/h39/compat/H39RuntimeDiagnostics.class",
     "tw/h39/compat/H39MedicalHitHandler.class",
     "tw/h39/compat/H39TaCZAmmoEvents.class",
     "tw/h39/compat/H39ReloadPlan.class",
