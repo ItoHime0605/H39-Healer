@@ -24,9 +24,13 @@ repositories {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-    // Official public TaCZ 1.21.1 NeoForge hotfix-r7 release.
-    // User's modified local TaCZ is NOT uploaded to this public repository.
-    compileOnly 'maven.modrinth:OypNE65K:62q6mB5Q'
+    // Prefer the owner's customized TaCZ JAR for local compatibility checks.
+    // CI uses the public 1.1.8-hotfix-r7 Modrinth Maven artifact instead.
+    if (file('libs/tacz.jar').isFile()) {
+        compileOnly files('libs/tacz.jar')
+    } else {
+        compileOnly 'maven.modrinth:OypNE65K:62q6mB5Q'
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
