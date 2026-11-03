@@ -1,0 +1,25 @@
+{
+  "model": "h39:ammo/medical_tube",
+  "texture": "h39:ammo/uv/medical_tube",
+  "slot": "h39:ammo/slot/medical_tube",
+  "tracer_color": "#66EF9A",
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.3,
+        0.3,
+        0.3
+      ],
+      "ground": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "fixed": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}
