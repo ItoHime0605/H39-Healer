@@ -63,32 +63,66 @@ class Canvas:
         dest.write_bytes(payload)
 
 def atlas(path):
-    """256px UV palette; cells start at (0,0), (88,0), (176,0), etc."""
+    """Original 256x256 H-39 UV atlas: ceramic, machined steel, light tubes.
+
+    The 3x3 regions intentionally keep the same UV cells as the model.
+    All detail is synthetic pixel art rather than third-party textures.
+    """
     colors = [
-        (228, 236, 235),  # white ceramic shell
-        (138, 159, 163),  # brushed silver
-        (59, 72, 79),    # dark barrel
-        (66, 216, 115),  # healing liquid
-        (206, 43, 57),   # medical red
-        (28, 33, 38),    # black grip
-        (150, 227, 199), # glossy glass
-        (57, 121, 93),   # deep green
-        (119, 142, 148), # grey mechanism
+        (229, 231, 234),  # 0: cool white medical ceramic
+        (141, 158, 169),  # 1: brushed silver
+        (57, 67, 77),    # 2: dark steel barrel
+        (98, 235, 84),   # 3: luminous green medicine
+        (195, 47, 61),   # 4: red emergency cross
+        (28, 36, 43),    # 5: black rubber grip
+        (175, 232, 224), # 6: clear medicine glass
+        (45, 132, 73),   # 7: recessed green medicine
+        (103, 122, 137)  # 8: matte gray structural steel
     ]
     pic = Canvas(256, 256)
-    for index, (r, g, b) in enumerate(colors):
+    for index, base in enumerate(colors):
         x0, y0 = (index % 3) * 88, (index // 3) * 88
+        ceramic = index in (0, 1, 8)
+        glass = index in (3, 6, 7)
         for y in range(80):
             for x in range(80):
-                n = ((x * 17 + y * 23 + index * 13) % 11) - 5
-                shine = (12 if 6 <= x % 23 <= 9 else 0)
-                side = -10 if x >= 72 or y >= 75 else 0
-                rgb = tuple(max(0, min(255, c + n + shine + side)) for c in (r, g, b))
+                fine = ((x * 19 + y * 11 + index * 7) % 7) - 3
+                gloss = (14 if x % 24 in (6, 7) else 0)
+                edge = -13 if x > 74 or y > 74 else 0
+                seam = 0
+                if ceramic:
+                    if y in (19, 20, 58) and x % 40 > 9:
+                        seam = -21
+                    if x in (39, 40, 68) and y % 34 < 25:
+                        seam = -14
+                if glass:
+                    # Bright inner column and darker sealing rim make the
+                    # medicine read as a glowing contained liquid.
+                    gloss += 19 if x % 38 in (9, 10, 11) else 0
+                    edge -= 21 if x % 38 in (0, 1, 37) else 0
+                    if y % 24 in (0, 1):
+                        seam = -14
+                if index == 5 and x % 13 in (0, 1):
+                    seam = -10  # molded grip ridges
+                noise = fine + gloss + edge + seam
+                rgb = tuple(max(0, min(255, col + noise)) for col in base)
                 pic.pixel(x0 + x, y0 + y, (*rgb, 255))
-        for x in range(6, 75):
-            pic.pixel(x0 + x, y0 + 4, (255, 255, 255, 135))
-        for y in range(8, 73):
-            pic.pixel(x0 + 4, y0 + y, (255, 255, 255, 100))
+        if ceramic:
+            # Machined panel joins and fasteners.
+            for x, y in ((11, 14), (48, 14), (11, 63), (49, 63)):
+                pic.rect(x0 + x, y0 + y, 3, 3, (40, 51, 60, 255))
+                pic.pixel(x0 + x + 1, y0 + y + 1, (182, 195, 205, 255))
+            for x in range(6, 75):
+                pic.pixel(x0 + x, y0 + 4, (248, 251, 250, 255))
+        if glass:
+            for y in range(6, 71):
+                pic.pixel(x0 + 6, y0 + y, (232, 255, 232, 255))
+                pic.pixel(x0 + 7, y0 + y, (181, 255, 201, 255))
+        if index == 4:
+            # Clear glossy medical-red striping, not a flat blob.
+            for x in range(10, 72):
+                if x % 17 < 3:
+                    pic.rect(x0 + x, y0 + 13, 2, 4, (250, 113, 116, 255))
     pic.write(path)
 
 def rifle_icon(path, hud=False):
