@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.16-alpha
+# H-39 TaCZ 槍包｜0.1.17-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -53,3 +53,5 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 伺服器首次啟動後，H-39 自動讀取 TaCZ 即時註冊資料確認 `h39:h39` 與 `h39:medical_tube` 已載入，並檢查 Meds and Herbs 的六種外傷效果。缺漏會在伺服器日誌中印出 `[H-39] 缺少：`，協助定位「編譯成功但遊戲找不到槍」的問題。OP 可以使用 `/h39 check` 在遊戲內直接重新檢查。
 
 所有第三方 TaCZ 與 Meds and Herbs JAR 均不會被上傳到公開 GitHub。
+
+新版已使用 TaCZ R7 隨附的 LuaJ 與 default_state_machine.lua 動態測試多槍上下文；各槍的彈數、可見藥管與空管拋出狀態現在分開保存，避免多人或切槍互相干擾。

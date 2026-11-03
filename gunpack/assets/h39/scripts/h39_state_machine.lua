@@ -26,28 +26,40 @@ local function tube_count(rounds)
     return math.floor((rounds + 4) / 5)
 end
 
-local last_rounds = -1
-local last_visible = -1
+-- Each TaCZ gun context needs its own counters. Module globals leak across
+-- two players, remote renderers and switching between weapons. Weak keys
+-- release unloaded/unequipped contexts without retaining stale instances.
+local state_per_context = setmetatable({}, {__mode = "k"})
+
+local function get_state(context)
+    local state = state_per_context[context]
+    if state == nil then
+        state = {last_rounds = -1, last_visible = -1}
+        state_per_context[context] = state
+    end
+    return state
+end
 
 local function update_tube_view(context)
     local rounds = bounded_rounds(context)
     local visible = tube_count(rounds)
+    local state = get_state(context)
 
     -- Single-shot decrement only. Bulk sync jumps / reloads must never eject.
-    if last_rounds >= 0 and rounds == last_rounds - 1
-            and tube_count(rounds) < tube_count(last_rounds) then
+    if state.last_rounds >= 0 and rounds == state.last_rounds - 1
+            and tube_count(rounds) < tube_count(state.last_rounds) then
         context:popShellFrom(0)
     end
 
-    if visible ~= last_visible then
+    if visible ~= state.last_visible then
         context:runAnimation(
             "tubes_" .. tostring(visible),
             context:getTrack(STATIC_TRACK_LINE, tube_track),
             true, PLAY_ONCE_HOLD, 0
         )
-        last_visible = visible
+        state.last_visible = visible
     end
-    last_rounds = rounds
+    state.last_rounds = rounds
 end
 
 -- The default base track is already one of TaCZ's registered states.
@@ -70,8 +82,7 @@ local M = setmetatable({
 }, {__index = default})
 
 function M:initialize(context)
-    last_rounds = -1
-    last_visible = -1
+    state_per_context[context] = nil
     default.initialize(self, context)
 end
 

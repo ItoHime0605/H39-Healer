@@ -55,8 +55,11 @@ class AnimationCompatibilityTests(unittest.TestCase):
     def test_spent_tube_ejection_only_after_single_shot(self):
         script = (ROOT / "assets/h39/scripts/h39_state_machine.lua").read_text(encoding="utf-8")
         # Guard against a model jumping several rounds during login/sync.
-        self.assertIn("rounds == last_rounds - 1", script)
-        self.assertNotIn("rounds < last_rounds then", script)
+        self.assertIn("rounds == state.last_rounds - 1", script)
+        self.assertIn('state_per_context = setmetatable({}, {__mode = "k"})', script)
+        self.assertIn("state_per_context[context] = nil", script)
+        self.assertNotIn("rounds < state.last_rounds then", script)
+        self.assertNotIn("local last_rounds = -1", script)
 
         def count(rounds):
             return (rounds + 4) // 5

@@ -54,6 +54,7 @@ jobs:
           fi
           python3 tools/check_local_tacz_api.py "$TACZ_JAR"
           python3 tools/check_tacz_gunpack_schema.py "$TACZ_JAR"
+          python3 tools/h39_lua_runtime_test.py "$TACZ_JAR"
       - name: Generate standalone TaCZ gunpack ZIP
         run: python3 tools/generate_h39_gunpack.py --zip dist/H39-Healer-Gunpack.zip
       - name: Upload CI-only development outputs
