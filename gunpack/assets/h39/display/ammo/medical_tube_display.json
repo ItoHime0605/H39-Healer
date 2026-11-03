@@ -21,5 +21,9 @@
         0.8
       ]
     }
+  },
+  "shell": {
+    "model": "h39:ammo/medical_tube",
+    "texture": "h39:ammo/uv/medical_tube"
   }
 }
