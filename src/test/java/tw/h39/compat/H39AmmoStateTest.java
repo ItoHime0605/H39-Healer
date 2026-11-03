@@ -10,7 +10,7 @@ public final class H39AmmoStateTest {
             check(H39AmmoState.read(H39AmmoState.write(counter)).rounds() == rounds, "round trip " + rounds);
             int visible = (rounds + 4) / 5;
             boolean[] expected = new boolean[4];
-            for (int i = 0; i < visible; i++) expected[i] = true;
+            for (int i = 4 - visible; i < 4; i++) expected[i] = true;
             check(Arrays.equals(H39AmmoState.visibleFromFront(counter), expected), "visible tubes " + rounds);
         }
         check(H39AmmoState.newGun().rounds() == 0, "new gun starts empty");
