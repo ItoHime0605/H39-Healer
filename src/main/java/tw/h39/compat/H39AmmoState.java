@@ -30,11 +30,11 @@ public final class H39AmmoState {
         return new H39AmmoCounter(stored);
     }
 
-    /** Front-to-back visible tubes, suitable for a four-bone model adapter. */
+    /** Front-to-back tube bones: emptied FRONT tubes disappear first. */
     public static boolean[] visibleFromFront(H39AmmoCounter counter) {
         boolean[] visible = new boolean[4];
         int n = counter.visibleTubes();
-        for (int i = 0; i < n; i++) visible[i] = true;
+        for (int i = 4 - n; i < 4; i++) visible[i] = true;
         return visible;
     }
 }
