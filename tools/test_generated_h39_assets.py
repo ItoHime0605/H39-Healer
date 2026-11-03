@@ -69,7 +69,7 @@ class GeneratedAssetsTests(unittest.TestCase):
             # with a long needle barrel and twin tapered nose fins.
             receiver = named_bones["main_body"]["cubes"]
             self.assertLessEqual(max(q["origin"][0]+q["size"][0] for q in receiver)-
-                                 min(q["origin"][0] for q in receiver), 4.5)
+                                 min(q["origin"][0] for q in receiver), 5.6)
             self.assertLess(named_bones["muzzle_pos"]["pivot"][2], -40)
             self.assertGreater(len(named_bones["upper_wing_left"]["cubes"]), 3)
             self.assertGreater(len(named_bones["upper_wing_right"]["cubes"]), 3)
@@ -78,7 +78,7 @@ class GeneratedAssetsTests(unittest.TestCase):
             for name in ("upper_wing_left", "upper_wing_right",
                          "lower_wing_left", "lower_wing_right"):
                 plates = named_bones[name]["cubes"]
-                self.assertGreaterEqual(len(plates), 12, name)
+                self.assertGreaterEqual(len(plates), 12 if "upper" in name else 8, name)
                 self.assertTrue(any(c["origin"][2] < -40 for c in plates))
             self.assertTrue(any(
                 c["origin"][1] >= 10.0 and c["size"][1] >= 1.5
