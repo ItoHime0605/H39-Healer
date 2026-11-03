@@ -77,7 +77,7 @@ class GeneratedAssetsTests(unittest.TestCase):
             for visible in range(5):
                 states = animation["animations"]["tubes_" + str(visible)]["bones"]
                 for i in range(1, 5):
-                    want = [1, 1, 1] if i <= visible else [0, 0, 0]
+                    want = [1, 1, 1] if i > 4 - visible else [0, 0, 0]
                     self.assertEqual(states["medical_tube_" + str(i)]["scale"], want)
 
             textures = [
