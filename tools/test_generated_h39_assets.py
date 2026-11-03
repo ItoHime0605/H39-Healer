@@ -43,6 +43,31 @@ class GeneratedAssetsTests(unittest.TestCase):
             self.assertIn("laser_pos", bones)
             self.assertIn("muzzle_pos", bones)
             self.assertNotIn("scope", bones, "No integral scope should block optional optics")
+            # TaCZ's camera is driven by viewpoint bone pivots. Zero-origin
+            # placeholders made this rifle fill the sky and appear above head.
+            named_bones = {bone["name"]: bone for bone in
+                           gun["minecraft:geometry"][0]["bones"]}
+            for view in ("camera", "idle_view", "iron_view"):
+                pivot = named_bones[view]["pivot"]
+                self.assertGreater(pivot[1], 8, view + " must be above receiver")
+                self.assertGreater(pivot[2], 10, view + " must be behind receiver")
+            self.assertGreater(named_bones["idle_view"]["pivot"][0], 2)
+            self.assertEqual(named_bones["iron_view"]["pivot"][0], 0)
+            self.assertEqual(named_bones["idle_view"]["parent"], "views")
+            self.assertEqual(named_bones["iron_view"]["parent"], "views")
+            self.assertEqual(named_bones["righthand"]["parent"], "gun_and_righthand")
+            self.assertEqual(named_bones["lefthand"]["parent"], "gun_and_righthand")
+            self.assertEqual(named_bones["righthand_pos"]["parent"], "righthand")
+            self.assertEqual(named_bones["lefthand_pos"]["parent"], "lefthand")
+            # Concept silhouette: narrower than previous 8-unit thick body,
+            # with a long needle barrel and twin tapered nose fins.
+            receiver = named_bones["main_body"]["cubes"]
+            self.assertLessEqual(max(q["origin"][0]+q["size"][0] for q in receiver)-
+                                 min(q["origin"][0] for q in receiver), 4.5)
+            self.assertLess(named_bones["muzzle_pos"]["pivot"][2], -40)
+            self.assertGreater(len(named_bones["upper_wing_left"]["cubes"]), 3)
+            self.assertGreater(len(named_bones["upper_wing_right"]["cubes"]), 3)
+
             gun_data = json.loads((pack / "data/h39/data/guns/h39_data.json").read_text())
             self.assertEqual(gun_data["allow_attachment_types"],
                              ["scope", "laser", "grip", "muzzle"])
@@ -74,6 +99,11 @@ class GeneratedAssetsTests(unittest.TestCase):
             lua = (pack / "assets/h39/scripts/h39_state_machine.lua").read_text()
             self.assertIn("context:getAmmoCount()", lua)
             self.assertIn("PLAY_ONCE_HOLD", lua)
+            self.assertIn("default.PARALLEL_TRACK_5", lua)
+            self.assertIn("base_track_state = h39_base", lua)
+            self.assertNotIn("static_track_top.value =", lua)
+            self.assertNotIn("table.insert(states", lua)
+
             for visible in range(5):
                 states = animation["animations"]["tubes_" + str(visible)]["bones"]
                 for i in range(1, 5):
