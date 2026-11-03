@@ -1,4 +1,7 @@
 name: H-39 source validation
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on:
   push:
   pull_request:
