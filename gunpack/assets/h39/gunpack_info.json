@@ -1,0 +1,10 @@
+{
+  "version": "0.1.1-alpha",
+  "name": "pack.h39.healer.name",
+  "desc": "pack.h39.healer.desc",
+  "license": "All Rights Reserved",
+  "authors": [
+    "H39 Healer contributors"
+  ],
+  "date": "2026-11-03"
+}
