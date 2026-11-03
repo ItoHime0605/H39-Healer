@@ -127,13 +127,30 @@ def tube_icon(path):
     pic.line(86, 35, 98, 22, (94, 119, 122, 255), 4)
     pic.write(path)
 
+def optic_icon(path):
+    # Original H-39 medical optic icon: circular lens with a fine green reticle.
+    pic = Canvas(128, 128)
+    for y in range(25, 103):
+        for x in range(25, 103):
+            r2 = (x - 64) ** 2 + (y - 64) ** 2
+            if 33 * 33 <= r2 <= 39 * 39:
+                pic.pixel(x, y, (189, 211, 213, 255))
+            elif r2 < 33 * 33:
+                pic.pixel(x, y, (22, 48, 55, 245))
+    pic.rect(61, 34, 6, 60, (53, 194, 119, 255))
+    pic.rect(34, 61, 60, 6, (53, 194, 119, 255))
+    pic.rect(59, 59, 10, 10, (211, 241, 225, 255))
+    pic.write(path)
+
 def create_png_files(pack):
     assets = pack / "assets/h39/textures"
     atlas(assets / "gun/uv/h39.png")
     atlas(assets / "ammo/uv/medical_tube.png")
+    atlas(assets / "attachment/uv/healer_optic.png")
     rifle_icon(assets / "gun/slot/h39.png")
     rifle_icon(assets / "gun/hud/h39.png", hud=True)
     tube_icon(assets / "ammo/slot/medical_tube.png")
+    optic_icon(assets / "attachment/slot/healer_optic.png")
 
 def stage(target):
     pack = target / PACK_IN_MOD
