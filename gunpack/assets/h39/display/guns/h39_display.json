@@ -25,5 +25,28 @@
         1.2
       ]
     }
+  },
+  "shell": {
+    "initial_velocity": [
+      -4,
+      3,
+      2
+    ],
+    "random_velocity": [
+      1,
+      1,
+      2
+    ],
+    "acceleration": [
+      0,
+      -16,
+      0
+    ],
+    "angular_velocity": [
+      340,
+      720,
+      150
+    ],
+    "living_time": 1.3
   }
 }
