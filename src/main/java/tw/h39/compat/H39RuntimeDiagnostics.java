@@ -33,6 +33,8 @@ public final class H39RuntimeDiagnostics {
             ResourceLocation.fromNamespaceAndPath("h39", "h39");
     private static final ResourceLocation TUBE =
             ResourceLocation.fromNamespaceAndPath("h39", "medical_tube");
+    private static final ResourceLocation PNEUMATIC_SOUND =
+            ResourceLocation.fromNamespaceAndPath("h39medical", "pneumatic_shot");
     private static final ResourceLocation GUN_RECIPE =
             ResourceLocation.fromNamespaceAndPath("h39", "gun/h39");
     private static final ResourceLocation TUBE_RECIPE =
@@ -53,7 +55,7 @@ public final class H39RuntimeDiagnostics {
         List<String> missing = scanMissing();
 
         if (missing.isEmpty()) {
-            LOG.info("[H-39] 啟動檢查通過：TaCZ 槍枝、藥管、兩份工坊配方與六種外傷效果已註冊。");
+            LOG.info("[H-39] 啟動檢查通過：TaCZ 槍枝、藥管、兩份工坊配方、氣動射擊音效與六種外傷效果已註冊。");
         } else {
             LOG.warn("[H-39] 啟動檢查發現 {} 項缺漏。JAR 編譯成功不代表遊戲內容正確載入。", missing.size());
             for (String item : missing) {
@@ -73,7 +75,7 @@ public final class H39RuntimeDiagnostics {
                     List<String> missing = scanMissing();
                     if (missing.isEmpty()) {
                         source.sendSuccess(() -> Component.literal(
-                                "[H-39] 檢查通過：TaCZ 槍枝、藥管、兩份工坊配方與六種外傷效果已載入。"), false);
+                                "[H-39] 檢查通過：TaCZ 槍枝、藥管、兩份工坊配方、氣動射擊音效與六種外傷效果已載入。"), false);
                         return 1;
                     }
                     source.sendFailure(Component.literal(
@@ -101,6 +103,10 @@ public final class H39RuntimeDiagnostics {
         }
         if (TimelessAPI.getRecipe(TUBE_RECIPE).isEmpty()) {
             missing.add("槍枝工坊配方：h39:ammo/medical_tube");
+        }
+
+        if (BuiltInRegistries.SOUND_EVENT.getOptional(PNEUMATIC_SOUND).isEmpty()) {
+            missing.add("H-39 氣動射擊音效：" + PNEUMATIC_SOUND);
         }
 
         if (!ModList.get().isLoaded("meds_and_herbs")) {

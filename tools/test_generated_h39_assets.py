@@ -59,6 +59,14 @@ class GeneratedAssetsTests(unittest.TestCase):
                 self.assertGreater(pivot[2], 10, view + " must be behind receiver")
             self.assertGreater(named_bones["idle_view"]["pivot"][0], 2)
             self.assertEqual(named_bones["iron_view"]["pivot"][0], 0)
+            # Against TaCZ's M700: native iron-view y=8.40625 and
+            # muzzle y=7.25. H39 muzzle is higher by 0.4, so sight height
+            # should be ~8.8 rather than our previous incorrect 10.95.
+            self.assertLess(abs(named_bones["iron_view"]["pivot"][1] - 8.8), 0.1)
+            self.assertLess(abs(named_bones["idle_view"]["pivot"][1] - 10.9), 0.2)
+            self.assertEqual(named_bones["iron_view"]["pivot"][2], 16)
+            self.assertEqual(named_bones["camera"]["pivot"][2], 16)
+
             self.assertEqual(named_bones["idle_view"]["parent"], "views")
             self.assertEqual(named_bones["iron_view"]["parent"], "views")
             self.assertEqual(named_bones["righthand"]["parent"], "gun_and_righthand")
