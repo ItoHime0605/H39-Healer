@@ -15,6 +15,7 @@ CASES = (
     ("data/h39/index/guns/h39.json", "data/tacz/index/guns/m700.json"),
     ("data/h39/index/ammo/medical_tube.json", "data/tacz/index/ammo/308.json"),
     ("data/h39/recipe/ammo/medical_tube.json", "data/tacz/recipe/ammo/308.json"),
+    ("data/h39/recipe/gun/h39.json", "data/tacz/recipe/gun/m700.json"),
     ("data/h39/data/guns/h39_data.json", "data/tacz/data/guns/m700_data.json"),
     ("assets/h39/display/guns/h39_display.json", "assets/tacz/display/guns/m700_display.json"),
 )
@@ -36,6 +37,22 @@ def main():
                 if key not in official_keys:
                     errors.append(f"{local}: unsupported candidate key {key!r}")
             print(f"checked {local} against {reference}")
+        # Validate the per-gun attachment whitelist against actual packaged
+        # TaCZ index files; type names alone are not enough to prove these IDs exist.
+        whitelist_path = ROOT / "data/h39/tacz_tags/attachments/allow_attachments/h39.json"
+        allowed = json.loads(whitelist_path.read_text(encoding="utf-8"))
+        if not isinstance(allowed, list) or len(allowed) != 7:
+            errors.append("H-39 attachment whitelist must have exactly seven entries")
+        else:
+            for attachment in allowed:
+                if not isinstance(attachment, str) or not attachment.startswith("tacz:"):
+                    errors.append(f"Invalid TaCZ attachment ID: {attachment!r}")
+                    continue
+                key = attachment.split(":", 1)[1]
+                official_path = PREFIX + "data/tacz/index/attachments/" + key + ".json"
+                if official_path not in archive.namelist():
+                    errors.append(f"Attachment absent from bundled TaCZ: {attachment}")
+
         # State machine identifiers are referenced by built-in gun display JSON.
         display = json.loads((ROOT / CASES[-1][0]).read_text(encoding="utf-8"))
         target = display.get("state_machine")
