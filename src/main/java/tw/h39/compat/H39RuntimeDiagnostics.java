@@ -33,6 +33,10 @@ public final class H39RuntimeDiagnostics {
             ResourceLocation.fromNamespaceAndPath("h39", "h39");
     private static final ResourceLocation TUBE =
             ResourceLocation.fromNamespaceAndPath("h39", "medical_tube");
+    private static final ResourceLocation GUN_RECIPE =
+            ResourceLocation.fromNamespaceAndPath("h39", "gun/h39");
+    private static final ResourceLocation TUBE_RECIPE =
+            ResourceLocation.fromNamespaceAndPath("h39", "ammo/medical_tube");
     private static final String[] TRAUMA = {
             "bleeding", "internal_bleeding", "blood_loss",
             "bone_fracture", "laceration", "burns"
@@ -49,7 +53,7 @@ public final class H39RuntimeDiagnostics {
         List<String> missing = scanMissing();
 
         if (missing.isEmpty()) {
-            LOG.info("[H-39] 啟動檢查通過：TaCZ 槍枝、醫療藥管及六種外傷效果已註冊。");
+            LOG.info("[H-39] 啟動檢查通過：TaCZ 槍枝、藥管、兩份工坊配方與六種外傷效果已註冊。");
         } else {
             LOG.warn("[H-39] 啟動檢查發現 {} 項缺漏。JAR 編譯成功不代表遊戲內容正確載入。", missing.size());
             for (String item : missing) {
@@ -69,7 +73,7 @@ public final class H39RuntimeDiagnostics {
                     List<String> missing = scanMissing();
                     if (missing.isEmpty()) {
                         source.sendSuccess(() -> Component.literal(
-                                "[H-39] 檢查通過：TaCZ 槍枝、醫療藥管及六種外傷效果已載入。"), false);
+                                "[H-39] 檢查通過：TaCZ 槍枝、藥管、兩份工坊配方與六種外傷效果已載入。"), false);
                         return 1;
                     }
                     source.sendFailure(Component.literal(
@@ -88,6 +92,15 @@ public final class H39RuntimeDiagnostics {
         }
         if (TimelessAPI.getCommonAmmoIndex(TUBE).isEmpty()) {
             missing.add("TaCZ 彈藥：h39:medical_tube");
+        }
+        // A loaded gun index is not enough: verify TaCZ actually imports
+        // both smithing-table recipes. Missing recipes may indicate an
+        // invalid ingredient ID or a gunpack loader error.
+        if (TimelessAPI.getRecipe(GUN_RECIPE).isEmpty()) {
+            missing.add("槍枝工坊配方：h39:gun/h39");
+        }
+        if (TimelessAPI.getRecipe(TUBE_RECIPE).isEmpty()) {
+            missing.add("槍枝工坊配方：h39:ammo/medical_tube");
         }
 
         if (!ModList.get().isLoaded("meds_and_herbs")) {
