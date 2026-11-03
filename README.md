@@ -13,7 +13,7 @@ Minecraft 1.21.1 / NeoForge / Java 21 / TaCZ 1.1.8 Hotfix R7 / Meds and Herbs 1.
 - 換彈現在由伺服器控管：戰術換彈 2.8 秒、空槍換彈 3.2 秒；實際扣管與補彈在動畫結束後，切槍或死亡會取消。
 - 已補上原創氣動射擊／氣閥／換彈 OGG 音效，並獨立建模射完的空醫療藥管。
 
-## 0.1.5-alpha 開發狀態
+## 0.1.6-alpha 開發狀態
 已加入 H-39 原創槍枝與醫療藥管幾何模型、純 Python 產生的 PNG 貼圖與圖示、使用 ffmpeg 產生的原創 OGG 音效、TaCZ 動畫與 Lua 藥管顯示狀態機；Java 端已註冊 TaCZ 額外槍包匯出 API，預計使用單一 JAR 自動將槍包匯入遊戲目錄。GitHub Actions 已成功執行 NeoForge Gradle 編譯，但尚未實際進入遊戲驗證配件掛載、醫療效果與換彈動畫，因此請勿將此版本當成正式可遊玩版。
 
 H-39 採用**氣動式醫療彈丸**，TaCZ `bullet.speed` 設定為 **200**（低於原生 M4A1 的 270 和 M700 的 380），為補償降速將 `bullet.life` 延長至 **1.5**；因為彈頭是輕型針狀醫療彈，`bullet.gravity` 降至 **0.03**，減少明顯下墜，其他醫療傷害與彈藥規則不變。詳見 [氣動彈道說明](docs/H39_PNEUMATIC_BALLISTICS_zh_TW.md)。
@@ -21,5 +21,9 @@ H-39 採用**氣動式醫療彈丸**，TaCZ `bullet.speed` 設定為 **200**（�
 已取消內建 2×／4×／6× 瞄準鏡切換；改由玩家選配 TaCZ 原生瞄具、雷射、前握把及槍口配件。詳見 [配件選配說明](docs/H39_ATTACHMENTS_zh_TW.md)。
 
 槍包詳情請參閱 [gunpack/README.md](gunpack/README.md)；TaCZ 公開 Maven 編譯依賴不包含你的個人修改版，若要用自己的 TaCZ JAR 進行本地編譯，請放到 `libs/tacz.jar`。
+
+新增 H-39 槍枝工坊合成配方（適用 Zone Zero）：鐵錠×32、銅錠×8、紅石粉×8、Zombie Extreme 鋼錠×3、Meds and Herbs 玻璃管×4、KubeJS 瓶蓋盒×4、鑽石×2。詳見 [製作配方](docs/H39_CRAFTING_zh_TW.md)。
+
+已新增 TaCZ 個別配件 ID 白名單，僅提供 7 件已核對的瞄具、雷射指示器、前握把與消音器；不開放擴充彈匣及特殊彈頭。詳見 [選配說明](docs/H39_ATTACHMENTS_zh_TW.md)。
 
 第三方 TaCZ、Meds and Herbs JAR 不會提交到本儲存庫。

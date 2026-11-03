@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.5-alpha
+# H-39 TaCZ 槍包｜0.1.6-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -11,7 +11,9 @@ Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 - 由原創程式產生的 8 組氣動射擊、低噪音與裝填音效（需 ffmpeg）。
 - 專門的空藥管幾何模型與貼圖，每五發用盡才由 TaCZ 的彈殼特效位置拋出。
 - 獨立槍包 ZIP 及模組 JAR 內嵌資源的建置腳本。
-- 醫療藥管在槍枝工坊的候選合成配方。
+- 醫療藥管與 H-39 槍枝本體的 TaCZ 槍枝工坊候選合成配方；槍身材料包含 Zone Zero 使用的瓶蓋盒與 Zombie Extreme 鋼錠。
+
+相關配置與合成材料請參閱 [選配說明](../docs/H39_ATTACHMENTS_zh_TW.md)及 [製作配方](../docs/H39_CRAFTING_zh_TW.md)。
 
 ### 自動產生圖片與槍包
 
@@ -32,7 +34,7 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 - 一般生物：先由 TaCZ 造成 0.5 HP 穿刺，存活才治療 8 HP，並於 10 秒內每秒回復 2 HP。
 - 不死生物：轉為即時與持續傷害；不清除中毒或感染。
 - 氣動式藥管飛行速度 `bullet.speed=200`（低於原本 310）；`bullet.life=1.5` 保持中遠距離支援用途；針狀醫療彈重力由 `0.15` 降為 `0.03`，下墜更小。
-- 不再內建倍率切換，改為開放 TaCZ 的 `scope`、`laser`、`grip`、`muzzle` 選配類型，不開放擴充彈匣或特殊彈頭。
+- 不再內建倍率切換，開放 TaCZ 的 `scope`、`laser`、`grip`、`muzzle` 選配類型，並新增 `data/h39/tacz_tags/attachments/allow_attachments/h39.json`，只列出 7 件實際存在的推薦配件 ID；不開放擴充彈匣或特殊彈頭。
 
 ## 尚未完成／不得宣稱完成
 
