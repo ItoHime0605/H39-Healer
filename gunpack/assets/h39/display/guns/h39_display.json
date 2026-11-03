@@ -1,8 +1,29 @@
 {
   "model": "h39:gun/h39_geo",
   "texture": "h39:gun/uv/h39",
+  "slot": "h39:gun/slot/h39",
+  "hud": "h39:gun/hud/h39",
   "animation": "h39:h39",
   "state_machine": "tacz:default_state_machine",
   "use_default_animation": "rifle",
-  "iron_zoom": 2
+  "iron_zoom": 2,
+  "transform": {
+    "scale": {
+      "thirdperson": [
+        0.65,
+        0.65,
+        0.65
+      ],
+      "ground": [
+        0.55,
+        0.55,
+        0.55
+      ],
+      "fixed": [
+        1.2,
+        1.2,
+        1.2
+      ]
+    }
+  }
 }
