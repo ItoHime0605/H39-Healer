@@ -73,10 +73,8 @@
   },
   "allow_attachment_types": [
     "scope",
+    "laser",
     "grip",
-    "laser"
-  ],
-  "builtin_attachments": {
-    "scope": "h39:healer_optic"
-  }
+    "muzzle"
+  ]
 }
