@@ -6,7 +6,7 @@
   "animation": "h39:h39",
   "state_machine": "h39:h39_state_machine",
   "use_default_animation": "rifle",
-  "iron_zoom": 2,
+  "iron_zoom": 1,
   "transform": {
     "scale": {
       "thirdperson": [
