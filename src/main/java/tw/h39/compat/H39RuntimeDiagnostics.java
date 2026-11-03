@@ -1,12 +1,17 @@
 package tw.h39.compat;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.tacz.guns.api.TimelessAPI;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +46,46 @@ public final class H39RuntimeDiagnostics {
 
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
-        List<String> missing = new ArrayList<>();
+        List<String> missing = scanMissing();
 
+
+        if (missing.isEmpty()) {
+            LOG.info("[H-39] Runtime content check OK: TaCZ gun, medical tubes "
+                    + "and all six medical trauma effects are registered.");
+        } else {
+            LOG.warn("[H-39] Runtime content check found {} missing entries. "
+                    + "The build succeeded, but gameplay is NOT yet verified.", missing.size());
+            for (String item : missing) {
+                LOG.warn("[H-39] Missing: {}", item);
+            }
+            LOG.warn("[H-39] Confirm that the H-39 embedded gunpack was exported "
+                    + "to the TaCZ gunpack directory and that Meds and Herbs is installed.");
+        }
+    }
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+        dispatcher.register(Commands.literal("h39")
+                .requires(source -> source.hasPermission(2))
+                .then(Commands.literal("check").executes(context -> {
+                    CommandSourceStack source = context.getSource();
+                    List<String> missing = scanMissing();
+                    if (missing.isEmpty()) {
+                        source.sendSuccess(() -> Component.literal(
+                                "[H-39] OK: TaCZ gun, medical tubes and all six trauma effects loaded."), false);
+                        return 1;
+                    }
+                    source.sendFailure(Component.literal(
+                            "[H-39] Found " + missing.size() + " missing content entries:"));
+                    for (String item : missing) {
+                        source.sendFailure(Component.literal("[H-39] Missing: " + item));
+                    }
+                    return 0;
+                })));
+    }
+
+    private static List<String> scanMissing() {
+        List<String> missing = new ArrayList<>();
         if (TimelessAPI.getCommonGunIndex(GUN).isEmpty()) {
             missing.add("TaCZ gun: h39:h39");
         }
@@ -62,17 +105,7 @@ public final class H39RuntimeDiagnostics {
             }
         }
 
-        if (missing.isEmpty()) {
-            LOG.info("[H-39] Runtime content check OK: TaCZ gun, medical tubes "
-                    + "and all six medical trauma effects are registered.");
-        } else {
-            LOG.warn("[H-39] Runtime content check found {} missing entries. "
-                    + "The build succeeded, but gameplay is NOT yet verified.", missing.size());
-            for (String item : missing) {
-                LOG.warn("[H-39] Missing: {}", item);
-            }
-            LOG.warn("[H-39] Confirm that the H-39 embedded gunpack was exported "
-                    + "to the TaCZ gunpack directory and that Meds and Herbs is installed.");
-        }
+        return missing;
     }
+
 }
