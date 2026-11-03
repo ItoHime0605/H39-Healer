@@ -50,7 +50,7 @@ class AnimationCompatibilityTests(unittest.TestCase):
                 state = self.animations["tubes_" + str(count)]["bones"]
                 for index in range(1, 5):
                     actual = state["medical_tube_" + str(index)]["scale"]
-                    self.assertEqual(actual, [1, 1, 1] if index <= count else [0, 0, 0])
+                    self.assertEqual(actual, [1, 1, 1] if index > 4 - count else [0, 0, 0])
 
     def test_no_recoil_physical_gun_kick(self):
         shoot = self.animations["shoot"]["bones"]["root"]
