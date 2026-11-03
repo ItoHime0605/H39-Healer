@@ -10,6 +10,9 @@ display = json.loads((root / "assets/h39/display/guns/h39_display.json").read_te
 
 assert gun["ammo"] == "h39:medical_tube"
 assert gun["ammo_amount"] == 20
+# Pneumatic H-39 must use one unified ammo count; closed bolt tracks
+# an extra chamber round separately and breaks the 20/20 HUD/tube display.
+assert gun["bolt"] == "open_bolt"
 assert gun["rpm"] == 180
 assert gun["fire_mode"] == ["semi"]
 assert gun["bullet"]["damage"] == 0.5

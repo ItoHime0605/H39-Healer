@@ -1,7 +1,7 @@
 {
   "ammo": "h39:medical_tube",
   "ammo_amount": 20,
-  "bolt": "closed_bolt",
+  "bolt": "open_bolt",
   "rpm": 180,
   "bullet": {
     "life": 1.5,

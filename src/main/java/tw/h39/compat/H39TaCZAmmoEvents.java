@@ -76,11 +76,15 @@ public final class H39TaCZAmmoEvents {
 
     private static int inventoryTubes(Player player) {
         int total = 0;
-        // Inventory.items excludes the offhand slot. Only count slots that
-        // will actually be decremented when the reload finishes.
+        // Inventory.items excludes the offhand slot. Both storage locations
+        // are accounted for during counting and during final consumption.
         for (ItemStack stack : player.getInventory().items) {
             if (isMedicalTube(stack)) total += stack.getCount();
         }
+        // TaCZ inventory search also accepts offhand ammunition. Counting it
+        // prevents the client playing a reload that the server rejects.
+        ItemStack offhand = player.getOffhandItem();
+        if (isMedicalTube(offhand)) total += offhand.getCount();
         return total;
     }
 
@@ -175,6 +179,14 @@ public final class H39TaCZAmmoEvents {
                 int count = Math.min(remaining, stack.getCount());
                 stack.shrink(count);
                 remaining -= count;
+            }
+            if (remaining > 0) {
+                ItemStack offhand = player.getOffhandItem();
+                if (isMedicalTube(offhand)) {
+                    int count = Math.min(remaining, offhand.getCount());
+                    offhand.shrink(count);
+                    remaining -= count;
+                }
             }
             if (remaining != 0) return; // Defensive: never grant free ammo.
         }
