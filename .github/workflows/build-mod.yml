@@ -1,0 +1,38 @@
+name: Build H-39 NeoForge mod and gunpack
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+      - name: Run H-39 source and generated PNG tests
+        run: |
+          python3 -m unittest discover -s tools -p 'test_*.py' -v
+          python3 tools/test_h39_gun_data.py
+      - name: Build NeoForge mod with public TaCZ r7 Maven dependency
+        run: gradle --no-daemon --stacktrace build
+      - name: Generate standalone TaCZ gunpack ZIP
+        run: python3 tools/generate_h39_gunpack.py --zip dist/H39-Healer-Gunpack.zip
+      - name: Upload CI-only development outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: H39-Healer-development-artifacts
+          path: |
+            build/libs/*.jar
+            dist/H39-Healer-Gunpack.zip
+          if-no-files-found: error
