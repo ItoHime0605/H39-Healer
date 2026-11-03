@@ -48,5 +48,15 @@
       150
     ],
     "living_time": 1.3
+  },
+  "sounds": {
+    "shoot": "h39:h39/h39_shoot",
+    "shoot_3p": "h39:h39/h39_shoot_3p",
+    "silence": "h39:h39/h39_silence",
+    "silence_3p": "h39:h39/h39_silence_3p",
+    "reload_empty": "h39:h39/h39_reload_empty",
+    "reload_tactical": "h39:h39/h39_reload_tactical",
+    "draw": "h39:h39/h39_draw",
+    "put_away": "h39:h39/h39_put_away"
   }
 }
