@@ -131,6 +131,7 @@ def create_png_files(pack):
     assets = pack / "assets/h39/textures"
     atlas(assets / "gun/uv/h39.png")
     atlas(assets / "ammo/uv/medical_tube.png")
+    atlas(assets / "shell/uv/empty_medical_tube.png")
     rifle_icon(assets / "gun/slot/h39.png")
     rifle_icon(assets / "gun/hud/h39.png", hud=True)
     tube_icon(assets / "ammo/slot/medical_tube.png")
