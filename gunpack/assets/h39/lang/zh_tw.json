@@ -1,5 +1,8 @@
 {
   "h39.gun.h39.name": "H-39「治癒者」",
   "h39.gun.h39.desc": "以醫療藥管發射治療彈的半自動步槍。對不死生物轉為造成傷害。",
-  "h39.ammo.medical_tube.name": "H-39 醫療藥管"
+  "h39.ammo.medical_tube.name": "H-39 醫療藥管",
+  "h39.attachment.healer_optic.name": "H-39 整合式醫療瞄準鏡（2×／4×／6×）",
+  "pack.h39.healer.name": "H-39「治癒者」",
+  "pack.h39.healer.desc": "配備醫療藥管與可變倍率瞄準鏡的醫療支援步槍。"
 }
