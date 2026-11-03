@@ -75,5 +75,8 @@
     "scope",
     "grip",
     "laser"
-  ]
+  ],
+  "builtin_attachments": {
+    "scope": "h39:healer_optic"
+  }
 }
