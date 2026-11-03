@@ -15,12 +15,16 @@ class GeneratedAssetsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             out = Path(temp) / "resources"
             exported = Path(temp) / "H39-Healer-Gunpack.zip"
-            subprocess.run([
+            generated = subprocess.run([
                 sys.executable,
                 str(ROOT / "tools/generate_h39_gunpack.py"),
                 "--output", str(out),
                 "--zip", str(exported)
-            ], check=True, capture_output=True, text=True)
+            ], check=False, capture_output=True, text=True)
+            self.assertEqual(
+                generated.returncode, 0,
+                "H-39 generator failed:\\n" + generated.stdout + "\\n" + generated.stderr
+            )
 
             pack = out / "assets/tacz/custom/h39_healer"
             self.assertEqual(
