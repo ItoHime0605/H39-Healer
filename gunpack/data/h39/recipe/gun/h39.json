@@ -1,0 +1,51 @@
+{
+  "materials": [
+    {
+      "item": {
+        "tag": "c:ingots/iron"
+      },
+      "count": 32
+    },
+    {
+      "item": {
+        "tag": "c:ingots/copper"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "item": "minecraft:redstone"
+      },
+      "count": 8
+    },
+    {
+      "item": {
+        "item": "zombie_extreme:ignotsteel"
+      },
+      "count": 3
+    },
+    {
+      "item": {
+        "item": "meds_and_herbs:glass_tube"
+      },
+      "count": 4
+    },
+    {
+      "item": {
+        "item": "kubejs:bottle_cap_box"
+      },
+      "count": 4
+    },
+    {
+      "item": {
+        "item": "minecraft:diamond"
+      },
+      "count": 2
+    }
+  ],
+  "result": {
+    "type": "gun",
+    "id": "h39:h39"
+  },
+  "type": "tacz:gun_smith_table_crafting"
+}
