@@ -39,14 +39,23 @@ def main():
         # State machine identifiers are referenced by built-in gun display JSON.
         display = json.loads((ROOT / CASES[-1][0]).read_text(encoding="utf-8"))
         target = display.get("state_machine")
-        found = any(
-            target.encode("utf-8") in archive.read(name)
-            for name in archive.namelist()
-            if name.startswith(PREFIX + "assets/tacz/display/guns/")
-            and name.endswith(".json")
-        )
-        if not found:
-            errors.append(f"Unreferenced TaCZ state machine: {target}")
+        if target == "h39:h39_state_machine":
+            script = ROOT / "assets/h39/scripts/h39_state_machine.lua"
+            if not script.is_file():
+                errors.append("Missing H-39 custom Lua state machine")
+            else:
+                script_text = script.read_text(encoding="utf-8")
+                if 'require("tacz_default_state_machine")' not in script_text:
+                    errors.append("H-39 script does not inherit TaCZ default state machine")
+        else:
+            found = any(
+                target.encode("utf-8") in archive.read(name)
+                for name in archive.namelist()
+                if name.startswith(PREFIX + "assets/tacz/display/guns/")
+                and name.endswith(".json")
+            )
+            if not found:
+                errors.append(f"Unreferenced TaCZ state machine: {target}")
     if errors:
         print("\n".join(errors))
         return 1
