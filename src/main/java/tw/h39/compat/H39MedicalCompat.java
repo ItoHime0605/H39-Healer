@@ -10,6 +10,7 @@ public final class H39MedicalCompat {
     public H39MedicalCompat() {
         ResourceManager.registerExportResource(H39MedicalCompat.class, "/assets/tacz/custom/h39_healer");
         H39MedicalHitHandler.register();
+        H39RuntimeDiagnostics.register();
         H39TaCZAmmoEvents.register();
     }
 }
