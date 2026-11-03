@@ -23,7 +23,7 @@
     }
   },
   "shell": {
-    "model": "h39:ammo/medical_tube",
-    "texture": "h39:ammo/uv/medical_tube"
+    "model": "h39:shell/empty_medical_tube",
+    "texture": "h39:shell/uv/empty_medical_tube"
   }
 }
