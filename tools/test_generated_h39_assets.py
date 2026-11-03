@@ -42,6 +42,19 @@ class GeneratedAssetsTests(unittest.TestCase):
                          "draw", "put_away", "inspect", "aim"):
                 self.assertIn(name, animation["animations"])
 
+            # TaCZ's Lua state machine must have a matching animation for
+            # each count. Toggling bones is visual only, not another ammo store.
+            display = json.loads((pack / "assets/h39/display/guns/h39_display.json").read_text())
+            self.assertEqual(display["state_machine"], "h39:h39_state_machine")
+            lua = (pack / "assets/h39/scripts/h39_state_machine.lua").read_text()
+            self.assertIn("context:getAmmoCount()", lua)
+            self.assertIn("PLAY_ONCE_HOLD", lua)
+            for visible in range(5):
+                states = animation["animations"]["tubes_" + str(visible)]["bones"]
+                for i in range(1, 5):
+                    want = [1, 1, 1] if i <= visible else [0, 0, 0]
+                    self.assertEqual(states["medical_tube_" + str(i)]["scale"], want)
+
             textures = [
                 "gun/uv/h39.png", "gun/slot/h39.png", "gun/hud/h39.png",
                 "ammo/uv/medical_tube.png", "ammo/slot/medical_tube.png"
