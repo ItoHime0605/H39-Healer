@@ -26,6 +26,11 @@ assert materials == {
     "minecraft:iron_ingot": 1,
 }
 assert display["model"] == "h39:gun/h39_geo"
+assert display["iron_zoom"] == 1.0
+assert "builtin_attachments" not in gun
+assert gun["allow_attachment_types"] == ["scope", "laser", "grip", "muzzle"]
+assert "extended_mag" not in gun["allow_attachment_types"]
+assert "ammo_mod" not in gun["allow_attachment_types"]
 print("H39 candidate gun data and medical tube recipe: static checks passed")
 print("WARNING: TaCZ has not been shown to consume one tube as five rounds.")
-print("WARNING: referenced 3D model, texture, and animation are not packaged yet.")
+print("INFO: original 3D model, texture generator and animation resources are present; runtime mounting is not yet verified.")
