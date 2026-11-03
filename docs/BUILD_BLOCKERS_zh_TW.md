@@ -1,44 +1,43 @@
-# H-39 完整建置阻礙與已核對的 API
+# H-39 編譯與實際整合狀態（2026-11-03）
 
-## 不需要使用者重新上傳的檔案
+## 已完成：真正的 GitHub Actions NeoForge 編譯
 
-開發環境已有使用者提供的修改版 TaCZ 1.1.8 Hotfix R7（約 55 MB）與 Meds and Herbs 1.2.1（約 947 KB）。它們只供本地驗證，不得提交至公開 GitHub 倉庫。
+先前「缺 Gradle、公開倉庫無 TaCZ JAR」的阻礙已排除：
 
-## 已用 javap 核對的 TaCZ API
+1. GitHub Actions 使用 `gradle/actions/setup-gradle@v4` 取得 Gradle 8.14.3，Java 為 21。
+2. Gradle 使用 Modrinth Maven 上的 TaCZ 1.21.1 NeoForge Hotfix R7（`maven.modrinth:OypNE65K:62q6mB5Q`），不把任何第三方 JAR 上傳公開 GitHub。
+3. 如果專案本地有 `libs/tacz.jar`，則優先用玩家自己的修改版 TaCZ 來編譯。
+4. `generateH39Gunpack` 會產生原創 PNG、圖示及嵌入 JAR 的槍包資源。
+5. **GitHub Actions Gradle 建置已確實成功**，例如：
+   - <https://github.com/ItoHime0605/H39-Healer/actions/runs/41551061438> （Commit `a210f171`，NeoForge build: success）。
+   - <https://github.com/ItoHime0605/H39-Healer/actions/runs/41551061462> （槍包 Python 測試: success）。
+   - <https://github.com/ItoHime0605/H39-Healer/actions/runs/41551061429> （Java 彈藥邏輯測試: success）。
 
-- `GunReloadEvent`：`getEntity()`、`getGunItemStack()`、`getLogicalSide()`；實作 `ICancellableEvent`。
-- `IGun`：`getIGunOrNull(ItemStack)`、`getGunId(ItemStack)`、`getCurrentAmmoCount(ItemStack)`、`setCurrentAmmoCount(ItemStack,int)`。
-- `IAmmo`：`getIAmmoOrNull(ItemStack)`、`getAmmoId(ItemStack)`。
-- `GunFireEvent` 與 `GunFinishReloadEvent` 存在；前者有 `getShooter()`、`getGunItemStack()`，後者有 `getGunItemStack()`。
+以上成功的版本已包含原創 H-39 模型、藥管幾何、PNG 產生器、Lua 彈藥數量顯示及 Java TaCZ 槍包匯出整合。
 
-上述檢查只能證明 **TaCZ 方法簽章**，不等於整個 NeoForge 專案編譯成功。
+**成功編譯不代表 Minecraft 實際載入、遊戲玩法或動畫已實測通過。**
 
-## 目前未完成的工作
+## 一個 JAR 安裝的技術路徑
 
-1. GitHub 倉庫沒有 Gradle Wrapper，環境也沒有安裝 Gradle，且曾遇到下載站 DNS 解析失敗；未能執行 `gradle build`。
-2. `build.gradle` 使用 `compileOnly files('libs/tacz.jar')`，但公開倉庫沒有 `libs/tacz.jar`，因此 GitHub Actions 尚無完整 Java 模組建置依賴。應採用授權的 Maven 依賴，或於使用者本地放置自己的 JAR；不要將第三方 JAR 上傳公開倉庫。
-3. H-39 換彈橋接目前會取消原生 `GunReloadEvent`，並立即扣除醫療藥管與寫入彈數。**這尚未驗證動畫、同步、換彈時間或事件順序**，不能視為完成。
-4. 槍包的 3D 模型、貼圖與動畫尚未齊備；候選 JSON 雖與 TaCZ 內建槍包結構部分對照，仍需載入驗證。
-5. 需實測醫療效果 ID、目標死亡順序與不死生物受傷無敵幀。
+已用使用者提供的修改版 TaCZ R7 JAR `javap` 核對：
 
-## 最小可行驗證路徑
+- `com.tacz.guns.api.resource.ResourceManager.registerExportResource(Class<?>,String)` 為可用 API。
+- TaCZ `GunPackLoader` 在首次掃描會讀取 `ResourceManager.EXTRA_ENTRIES`，將第三方 JAR 內的指定資源匯出至遊戲目錄 `tacz/<名稱>`。
+- H-39 主類別現已登記 `/assets/tacz/custom/h39_healer`，建置流程也確實放入該目錄。
+- TaCZ 設定的首次匯出覆寫選項可能改變匯出行為；另有獨立 ZIP 備援。
 
-- 在可下載 Gradle 與 NeoForge 依賴的環境建立 Wrapper。
-- 使用開發者自己的 TaCZ JAR 作為 `libs/tacz.jar`，執行 `./gradlew compileJava`。
-- 修正所有實際編譯錯誤，接著執行 `./gradlew build`。
-- 加入資源與遊戲內測試後，才交付正式 JAR。
+## 尚待實際遊戲驗證或實作
 
-使用者目前不必再上傳相同的 TaCZ 或 Meds and Herbs JAR。
+- 醫療傷害和持續治療正確觸發、六種外傷清除、無疊加刷新。
+- TaCZ 射擊、換彈取消與「每管五發」背包消耗、客戶端同步、換彈動畫與時間。
+- Lua 的 `context:getAmmoCount()` 是否能讓 0～4 個醫療藥管骨骼動態隱藏。
+- 2×／4×／6× 瞄準倍率切換、每第五發拋藥管的模型特效尚未完成。
+- 以使用者本人修改的 TaCZ JAR 進行遊戲啟動與伺服器連線的相容性測試。
 
-## 2026-11-03 實際 JAR 驗證補充
+## 已核對的 Meds and Herbs ID
 
-已以 `javap -c -p` 檢查使用者提供的 Meds and Herbs 1.2.1 JAR 內 `com.plank.meds_and_herbs.init.Effects` 的註冊字串，**六種傷勢效果 ID 全部確認存在**：
+以下六個效果均從玩家提供的 Meds and Herbs 1.2.1 JAR 核對：
+`bleeding`, `internal_bleeding`, `blood_loss`, `bone_fracture`, `laceration`, `burns`。
 
-- `meds_and_herbs:bleeding`
-- `meds_and_herbs:internal_bleeding`
-- `meds_and_herbs:blood_loss`
-- `meds_and_herbs:burns`
-- `meds_and_herbs:laceration`
-- `meds_and_herbs:bone_fracture`
-
-`GunReloadEvent` 已從修改版 TaCZ JAR 驗證為 `ICancellableEvent`；`IGun` 的讀取與寫入目前彈數方法也已核對。這些仍不等於完整 NeoForge 編譯成功。
+以下六項藥管原料均在相同 JAR 的資源模型／配方路徑中找到對應名稱：
+`aloe_leaf`, `chamomile`, `plantago_leaf`, `glass_tube`，以及原版 Minecraft 的 `glistering_melon_slice` 與 `iron_ingot`。
