@@ -500,9 +500,9 @@
       "bones": {
         "medical_tube_1": {
           "scale": [
-            1,
-            1,
-            1
+            0,
+            0,
+            0
           ]
         },
         "medical_tube_2": {
@@ -521,9 +521,9 @@
         },
         "medical_tube_4": {
           "scale": [
-            0,
-            0,
-            0
+            1,
+            1,
+            1
           ]
         }
       }
@@ -533,30 +533,30 @@
       "bones": {
         "medical_tube_1": {
           "scale": [
-            1,
-            1,
-            1
+            0,
+            0,
+            0
           ]
         },
         "medical_tube_2": {
           "scale": [
+            0,
+            0,
+            0
+          ]
+        },
+        "medical_tube_3": {
+          "scale": [
             1,
             1,
             1
           ]
         },
-        "medical_tube_3": {
-          "scale": [
-            0,
-            0,
-            0
-          ]
-        },
         "medical_tube_4": {
           "scale": [
-            0,
-            0,
-            0
+            1,
+            1,
+            1
           ]
         }
       }
@@ -566,9 +566,9 @@
       "bones": {
         "medical_tube_1": {
           "scale": [
-            1,
-            1,
-            1
+            0,
+            0,
+            0
           ]
         },
         "medical_tube_2": {
@@ -587,9 +587,9 @@
         },
         "medical_tube_4": {
           "scale": [
-            0,
-            0,
-            0
+            1,
+            1,
+            1
           ]
         }
       }
