@@ -420,65 +420,6 @@
           ]
         },
         {
-          "name": "scope",
-          "parent": "gun_and_righthand",
-          "pivot": [
-            0,
-            0,
-            0
-          ],
-          "cubes": [
-            {
-              "origin": [
-                -1.2,
-                11,
-                -4
-              ],
-              "size": [
-                2.4,
-                2.5,
-                13
-              ],
-              "uv": [
-                176,
-                88
-              ]
-            },
-            {
-              "origin": [
-                -1.7,
-                11.2,
-                -3
-              ],
-              "size": [
-                3.4,
-                2.1,
-                2
-              ],
-              "uv": [
-                88,
-                0
-              ]
-            },
-            {
-              "origin": [
-                -1.8,
-                11.1,
-                7
-              ],
-              "size": [
-                3.6,
-                2.3,
-                2
-              ],
-              "uv": [
-                176,
-                88
-              ]
-            }
-          ]
-        },
-        {
           "name": "medical_cross_left",
           "parent": "gun_and_righthand",
           "pivot": [
@@ -1033,6 +974,24 @@
             0,
             0,
             0
+          ]
+        },
+        {
+          "name": "grip_pos",
+          "parent": "gun_and_righthand",
+          "pivot": [
+            0,
+            3,
+            -12
+          ]
+        },
+        {
+          "name": "laser_pos",
+          "parent": "gun_and_righthand",
+          "pivot": [
+            2.9,
+            7,
+            -11
           ]
         }
       ]
