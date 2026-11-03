@@ -13,6 +13,14 @@ assert gun["ammo_amount"] == 20
 assert gun["rpm"] == 180
 assert gun["fire_mode"] == ["semi"]
 assert gun["bullet"]["damage"] == 0.5
+# TaCZ R7 default pack comparison: M4A1 speed=270, M700 speed=380.
+# Medical pneumatic projectile is deliberately slower, but persists long
+# enough to remain useful for mid-to-long-range teammate support.
+assert gun["bullet"]["speed"] == 200
+assert gun["bullet"]["life"] == 1.5
+assert gun["bullet"]["gravity"] == 0.15
+assert gun["bullet"]["speed"] < 270
+
 assert gun["bullet"]["extra_damage"]["damage_adjust"][0]["distance"] == "infinite"
 assert recipe["result"]["id"] == gun["ammo"]
 assert recipe["result"]["count"] == 1
