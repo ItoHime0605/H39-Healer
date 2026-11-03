@@ -20,10 +20,12 @@ jobs:
             src/main/java/tw/h39/compat/H39AmmoCounter.java \
             src/main/java/tw/h39/compat/H39AmmoState.java \
             src/main/java/tw/h39/compat/H39ReloadPlan.java \
+            src/main/java/tw/h39/compat/H39ReloadTiming.java \
             src/test/java/tw/h39/compat/H39PulseScheduleTest.java \
             src/test/java/tw/h39/compat/H39AmmoCounterTest.java \
             src/test/java/tw/h39/compat/H39AmmoStateTest.java \
-            src/test/java/tw/h39/compat/H39ReloadPlanTest.java
+            src/test/java/tw/h39/compat/H39ReloadPlanTest.java \
+            src/test/java/tw/h39/compat/H39ReloadTimingTest.java
       - name: Verify pulse schedule
         run: java -cp build/test-classes tw.h39.compat.H39PulseScheduleTest
       - name: Verify simplified shared ammunition
@@ -32,3 +34,5 @@ jobs:
         run: java -cp build/test-classes tw.h39.compat.H39AmmoStateTest
       - name: Verify physical five-shot tube reload planning
         run: java -cp build/test-classes tw.h39.compat.H39ReloadPlanTest
+      - name: Verify timed server-authoritative medical tube reload
+        run: java -cp build/test-classes tw.h39.compat.H39ReloadTimingTest
