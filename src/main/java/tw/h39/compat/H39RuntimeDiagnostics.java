@@ -48,20 +48,17 @@ public final class H39RuntimeDiagnostics {
     public static void onServerStarted(ServerStartedEvent event) {
         List<String> missing = scanMissing();
 
-
         if (missing.isEmpty()) {
-            LOG.info("[H-39] Runtime content check OK: TaCZ gun, medical tubes "
-                    + "and all six medical trauma effects are registered.");
+            LOG.info("[H-39] 啟動檢查通過：TaCZ 槍枝、醫療藥管及六種外傷效果已註冊。");
         } else {
-            LOG.warn("[H-39] Runtime content check found {} missing entries. "
-                    + "The build succeeded, but gameplay is NOT yet verified.", missing.size());
+            LOG.warn("[H-39] 啟動檢查發現 {} 項缺漏。JAR 編譯成功不代表遊戲內容正確載入。", missing.size());
             for (String item : missing) {
-                LOG.warn("[H-39] Missing: {}", item);
+                LOG.warn("[H-39] 缺少：{}", item);
             }
-            LOG.warn("[H-39] Confirm that the H-39 embedded gunpack was exported "
-                    + "to the TaCZ gunpack directory and that Meds and Herbs is installed.");
+            LOG.warn("[H-39] 請確認內嵌槍包已匯出至 TaCZ 槍包資料夾，且已安裝 Meds and Herbs。");
         }
     }
+
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
@@ -72,13 +69,13 @@ public final class H39RuntimeDiagnostics {
                     List<String> missing = scanMissing();
                     if (missing.isEmpty()) {
                         source.sendSuccess(() -> Component.literal(
-                                "[H-39] OK: TaCZ gun, medical tubes and all six trauma effects loaded."), false);
+                                "[H-39] 檢查通過：TaCZ 槍枝、醫療藥管及六種外傷效果已載入。"), false);
                         return 1;
                     }
                     source.sendFailure(Component.literal(
-                            "[H-39] Found " + missing.size() + " missing content entries:"));
+                            "[H-39] 找到 " + missing.size() + " 項缺少的內容："));
                     for (String item : missing) {
-                        source.sendFailure(Component.literal("[H-39] Missing: " + item));
+                        source.sendFailure(Component.literal("[H-39] 缺少：" + item));
                     }
                     return 0;
                 })));
@@ -87,25 +84,24 @@ public final class H39RuntimeDiagnostics {
     private static List<String> scanMissing() {
         List<String> missing = new ArrayList<>();
         if (TimelessAPI.getCommonGunIndex(GUN).isEmpty()) {
-            missing.add("TaCZ gun: h39:h39");
+            missing.add("TaCZ 槍枝：h39:h39");
         }
         if (TimelessAPI.getCommonAmmoIndex(TUBE).isEmpty()) {
-            missing.add("TaCZ ammo: h39:medical_tube");
+            missing.add("TaCZ 彈藥：h39:medical_tube");
         }
 
         if (!ModList.get().isLoaded("meds_and_herbs")) {
-            missing.add("Required mod: meds_and_herbs");
+            missing.add("必要模組：meds_and_herbs");
         } else {
             for (String id : TRAUMA) {
                 ResourceLocation key =
                         ResourceLocation.fromNamespaceAndPath("meds_and_herbs", id);
                 if (BuiltInRegistries.MOB_EFFECT.getOptional(key).isEmpty()) {
-                    missing.add("Medical trauma effect: " + key);
+                    missing.add("醫療外傷效果：" + key);
                 }
             }
         }
 
         return missing;
     }
-
 }

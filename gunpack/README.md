@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.11-alpha
+# H-39 TaCZ 槍包｜0.1.12-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -44,6 +44,6 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 換彈已改為伺服器定時處理，空槍需 3.2 秒、戰術換彈需 2.8 秒，動畫結束才扣除醫療藥管並補充彈數。切槍、死亡、離開世界會取消。程式已提交並加入測試，仍須進行遊戲內驗證；不能以純邏輯測試取代實測。
 模組主類別已呼叫 TaCZ 官方提供的 `ResourceManager.registerExportResource`，將 JAR 的 `/assets/tacz/custom/h39_healer` 登記成額外槍包來源；TaCZ 的 `GunPackLoader` 會於首次載入將其匯出至遊戲目錄下 `tacz/h39_healer`，然後掃描。這條整合路徑已由 TaCZ R7 位元碼核對，但仍需實際遊戲驗證。若玩家在 TaCZ 設定啟用了覆寫／禁止初次匯出選項，則可能需要使用獨立槍包 ZIP。
 
-伺服器首次啟動後，H-39 自動讀取 TaCZ 即時註冊資料確認 `h39:h39` 與 `h39:medical_tube` 已載入，並檢查 Meds and Herbs 的六種外傷效果。缺漏會在伺服器日誌中印出 `[H-39] Missing:`，協助定位「編譯成功但遊戲找不到槍」的問題。
+伺服器首次啟動後，H-39 自動讀取 TaCZ 即時註冊資料確認 `h39:h39` 與 `h39:medical_tube` 已載入，並檢查 Meds and Herbs 的六種外傷效果。缺漏會在伺服器日誌中印出 `[H-39] 缺少：`，協助定位「編譯成功但遊戲找不到槍」的問題。OP 可以使用 `/h39 check` 在遊戲內直接重新檢查。
 
 所有第三方 TaCZ 與 Meds and Herbs JAR 均不會被上傳到公開 GitHub。
