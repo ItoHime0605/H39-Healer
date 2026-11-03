@@ -962,6 +962,78 @@
             0,
             0
           ]
+        },
+        {
+          "name": "shell",
+          "parent": "gun_and_righthand",
+          "pivot": [
+            2.2,
+            8.8,
+            -6
+          ]
+        },
+        {
+          "name": "thirdperson_hand",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "ground",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "fixed",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "idle_view",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "iron_view",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "refit_view",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "refit_scope_view",
+          "parent": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
         }
       ]
     }
