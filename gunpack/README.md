@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.4-alpha
+# H-39 TaCZ 槍包｜0.1.5-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -8,6 +8,8 @@ Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 - 醫療藥管道具的原創 3D 幾何模型。
 - TaCZ 格式的射擊、瞄準、換彈、拿出、收起與檢視動畫資料。
 - 可用純 Python 3 標準函式庫產生的 UV 貼圖及槍枝／藥管圖示。
+- 由原創程式產生的 8 組氣動射擊、低噪音與裝填音效（需 ffmpeg）。
+- 專門的空藥管幾何模型與貼圖，每五發用盡才由 TaCZ 的彈殼特效位置拋出。
 - 獨立槍包 ZIP 及模組 JAR 內嵌資源的建置腳本。
 - 醫療藥管在槍枝工坊的候選合成配方。
 
@@ -37,7 +39,7 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 **不可視為可安裝槍包或正式版。**
 
 目前原創模型、貼圖與動畫已有來源及產生方式，**但藥管骨骼目前已透過 TaCZ Lua 狀態機與 0～4 管縮放動畫連接，即時讀取 `context:getAmmoCount()`；但尚未經遊戲內實測。已寫入每第五發拋出空醫療藥管的 Lua 判定；但整個狀態機尚待遊戲內驗證，換彈動畫同步亦尚未實測。內建倍率切換已依需求取消，改為配件自由選擇**。
-換彈事件已有 NeoForge／TaCZ 程式且完整編譯通過，還須進行遊戲內驗證；不能以純邏輯測試取代實測。
+換彈已改為伺服器定時處理，空槍需 3.2 秒、戰術換彈需 2.8 秒，動畫結束才扣除醫療藥管並補充彈數。切槍、死亡、離開世界會取消。程式已提交並加入測試，仍須進行遊戲內驗證；不能以純邏輯測試取代實測。
 模組主類別已呼叫 TaCZ 官方提供的 `ResourceManager.registerExportResource`，將 JAR 的 `/assets/tacz/custom/h39_healer` 登記成額外槍包來源；TaCZ 的 `GunPackLoader` 會於首次載入將其匯出至遊戲目錄下 `tacz/h39_healer`，然後掃描。這條整合路徑已由 TaCZ R7 位元碼核對，但仍需實際遊戲驗證。若玩家在 TaCZ 設定啟用了覆寫／禁止初次匯出選項，則可能需要使用獨立槍包 ZIP。
 
 所有第三方 TaCZ 與 Meds and Herbs JAR 均不會被上傳到公開 GitHub。
