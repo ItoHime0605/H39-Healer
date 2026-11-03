@@ -36,6 +36,15 @@ jobs:
           python3 tools/test_h39_gun_data.py
       - name: Build NeoForge mod with public TaCZ r7 Maven dependency
         run: gradle --no-daemon --stacktrace build
+      - name: Validate compiled single-JAR embedded gunpack
+        run: |
+          shopt -s nullglob
+          jars=(build/libs/h39medical-*.jar)
+          if [ "${#jars[@]}" -ne 1 ]; then
+            echo "Expected exactly one H39 mod JAR; found ${#jars[@]}"
+            exit 1
+          fi
+          python3 tools/verify_h39_mod_jar.py "${jars[0]}"
       - name: Cross-check H-39 against resolved official TaCZ JAR
         run: |
           TACZ_JAR="$(find "$HOME/.gradle/caches/modules-2/files-2.1/maven.modrinth/OypNE65K/62q6mB5Q" -name '*.jar' -type f -print -quit)"

@@ -13,8 +13,8 @@ Minecraft 1.21.1 / NeoForge / Java 21 / TaCZ 1.1.8 Hotfix R7 / Meds and Herbs 1.
 - 換彈現在由伺服器控管：戰術換彈 2.8 秒、空槍換彈 3.2 秒；實際扣管與補彈在動畫結束後，切槍或死亡會取消。
 - 已補上原創氣動射擊／氣閥／換彈 OGG 音效，並獨立建模射完的空醫療藥管。
 
-## 0.1.7-alpha 開發狀態
-已加入 H-39 原創槍枝與醫療藥管幾何模型、純 Python 產生的 PNG 貼圖與圖示、使用 ffmpeg 產生的原創 OGG 音效、TaCZ 動畫與 Lua 藥管顯示狀態機；Java 端已註冊 TaCZ 額外槍包匯出 API，預計使用單一 JAR 自動將槍包匯入遊戲目錄。GitHub Actions 已成功執行 NeoForge Gradle 編譯，但尚未實際進入遊戲驗證配件掛載、醫療效果與換彈動畫，因此請勿將此版本當成正式可遊玩版。
+## 0.1.8-alpha 開發狀態
+已加入 H-39 原創槍枝與醫療藥管幾何模型、純 Python 產生的 PNG 貼圖與圖示、使用 ffmpeg 產生的原創 OGG 音效、TaCZ 動畫與 Lua 藥管顯示狀態機；Java 端已註冊 TaCZ 額外槍包匯出 API；建置後額外檢查 JAR 是否真的包含槍身、藥管、動畫、貼圖、音效與完整白名單，預計使用單一 JAR 自動將槍包匯入遊戲目錄。GitHub Actions 已成功執行 NeoForge Gradle 編譯，但尚未實際進入遊戲驗證配件掛載、醫療效果與換彈動畫，因此請勿將此版本當成正式可遊玩版。
 
 H-39 採用**氣動式醫療彈丸**，TaCZ `bullet.speed` 設定為 **200**（低於原生 M4A1 的 270 和 M700 的 380），為補償降速將 `bullet.life` 延長至 **1.5**；因為彈頭是輕型針狀醫療彈，`bullet.gravity` 降至 **0.03**，減少明顯下墜，其他醫療傷害與彈藥規則不變。詳見 [氣動彈道說明](docs/H39_PNEUMATIC_BALLISTICS_zh_TW.md)。
 

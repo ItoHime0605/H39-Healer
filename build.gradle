@@ -44,6 +44,7 @@ tasks.register('generateH39Gunpack', Exec) {
             '--output', generatedGunpack.get().asFile.absolutePath
     inputs.dir('gunpack')
     inputs.file('tools/generate_h39_gunpack.py')
+    inputs.file('tools/generate_h39_sounds.py')
     outputs.dir(generatedGunpack)
 }
 

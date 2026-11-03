@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.7-alpha
+# H-39 TaCZ 槍包｜0.1.8-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
