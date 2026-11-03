@@ -89,12 +89,30 @@ class GeneratedAssetsTests(unittest.TestCase):
                 size = (256, 256) if "/uv/" in texture else (128, 128)
                 self.assertEqual((w, h), size)
 
+            # Original air-pressure shots and medical cartridge manipulation
+            # must ship as Ogg/Vorbis, not just sound keys in display JSON.
+            sound_ids = (
+                "h39_shoot", "h39_shoot_3p", "h39_silence",
+                "h39_silence_3p", "h39_reload_tactical",
+                "h39_reload_empty", "h39_draw", "h39_put_away"
+            )
+            sound_dir = pack / "assets/h39/tacz_sounds/h39"
+            for name in sound_ids:
+                path = sound_dir / (name + ".ogg")
+                self.assertTrue(path.is_file(), name)
+                self.assertEqual(path.read_bytes()[:4], b"OggS", name)
+            self.assertEqual(len(list(sound_dir.glob("*.ogg"))), len(sound_ids))
+            sounds = display["sounds"]
+            for name in sound_ids:
+                self.assertIn("h39:h39/" + name, sounds.values())
+
             with zipfile.ZipFile(exported) as archive:
                 names = set(archive.namelist())
                 self.assertIn("gunpack.meta.json", names)
                 self.assertIn("assets/h39/textures/gun/uv/h39.png", names)
                 self.assertIn("assets/h39/geo_models/gun/h39_geo.json", names)
                 self.assertIn("assets/h39/geo_models/shell/empty_medical_tube.json", names)
+                self.assertIn("assets/h39/tacz_sounds/h39/h39_shoot.ogg", names)
                 self.assertNotIn("assets/tacz/custom/h39_healer/gunpack.meta.json", names)
 
 if __name__ == "__main__":
