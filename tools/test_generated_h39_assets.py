@@ -49,6 +49,14 @@ class GeneratedAssetsTests(unittest.TestCase):
             self.assertFalse((pack / "assets/h39/display/attachments/healer_optic_display.json").exists())
             self.assertFalse((pack / "assets/h39/textures/attachment/uv/healer_optic.png").exists())
             self.assertIn("medical_cross_right", bones)
+            ammo_display = json.loads(
+                (pack / "assets/h39/display/ammo/medical_tube_display.json").read_text()
+            )
+            self.assertEqual(
+                ammo_display["shell"]["model"], "h39:shell/empty_medical_tube"
+            )
+            shell_geo = pack / "assets/h39/geo_models/shell/empty_medical_tube.json"
+            self.assertTrue(shell_geo.is_file(), "spent tube needs its own 3D model")
 
             animation = json.loads((pack / "assets/h39/animations/h39.animation.json").read_text())
             for name in ("static_idle", "shoot", "reload_empty", "reload_tactical",
@@ -70,7 +78,8 @@ class GeneratedAssetsTests(unittest.TestCase):
 
             textures = [
                 "gun/uv/h39.png", "gun/slot/h39.png", "gun/hud/h39.png",
-                "ammo/uv/medical_tube.png", "ammo/slot/medical_tube.png"
+                "ammo/uv/medical_tube.png", "ammo/slot/medical_tube.png",
+                "shell/uv/empty_medical_tube.png"
             ]
             for texture in textures:
                 file = pack / "assets/h39/textures" / texture
@@ -85,6 +94,7 @@ class GeneratedAssetsTests(unittest.TestCase):
                 self.assertIn("gunpack.meta.json", names)
                 self.assertIn("assets/h39/textures/gun/uv/h39.png", names)
                 self.assertIn("assets/h39/geo_models/gun/h39_geo.json", names)
+                self.assertIn("assets/h39/geo_models/shell/empty_medical_tube.json", names)
                 self.assertNotIn("assets/tacz/custom/h39_healer/gunpack.meta.json", names)
 
 if __name__ == "__main__":
