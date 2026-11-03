@@ -24,6 +24,11 @@ assert gun["bullet"]["life"] == 1.5
 assert gun["bullet"]["gravity"] == 0.03
 assert 0 < gun["bullet"]["gravity"] < 0.15  # Slight arc, not a straight hitscan projectile
 assert gun["bullet"]["speed"] < 270
+# Precision medical darts must fly along the crosshair, without TaCZ's
+# old 5.5-degree standing / 6-degree moving random dispersion.
+assert set(gun["inaccuracy"]) == {"stand", "move", "sneak", "lie", "aim"}
+assert all(value == 0 for value in gun["inaccuracy"].values())
+
 
 assert gun["bullet"]["extra_damage"]["damage_adjust"][0]["distance"] == "infinite"
 assert recipe["result"]["id"] == gun["ammo"]
