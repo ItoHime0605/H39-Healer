@@ -1,4 +1,4 @@
-# H-39 TaCZ 槍包｜0.1.18-alpha
+# H-39 TaCZ 槍包｜0.1.19-alpha
 
 Minecraft 1.21.1／NeoForge／TaCZ 1.1.8 Hotfix R7。
 
@@ -55,3 +55,5 @@ GitHub Actions 的 `build-mod.yml` 會先跑檢查，再嘗試完整 NeoForge 21
 所有第三方 TaCZ 與 Meds and Herbs JAR 均不會被上傳到公開 GitHub。
 
 新版已使用 TaCZ R7 隨附的 LuaJ 與 default_state_machine.lua 動態測試多槍上下文；各槍的彈數、可見藥管與空管拋出狀態現在分開保存，避免多人或切槍互相干擾。
+
+0.1.19-alpha 將前端上下分叉白色護翼擴充成分段收尖的側甲；新增原生 NeoForge 聲音事件與台灣繁體中文字幕，射擊聲已不經由 TaCZ 槍包動態音效讀取。尚需完整遊戲內音畫驗證。

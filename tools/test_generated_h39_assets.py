@@ -73,6 +73,22 @@ class GeneratedAssetsTests(unittest.TestCase):
             self.assertLess(named_bones["muzzle_pos"]["pivot"][2], -40)
             self.assertGreater(len(named_bones["upper_wing_left"]["cubes"]), 3)
             self.assertGreater(len(named_bones["upper_wing_right"]["cubes"]), 3)
+            # Main two fork blades must taper toward the muzzle rather than
+            # render as flat straight rods beside the center medicine tubes.
+            for name in ("upper_wing_left", "upper_wing_right",
+                         "lower_wing_left", "lower_wing_right"):
+                plates = named_bones[name]["cubes"]
+                self.assertGreaterEqual(len(plates), 12, name)
+                self.assertTrue(any(c["origin"][2] < -40 for c in plates))
+            self.assertTrue(any(
+                c["origin"][1] >= 10.0 and c["size"][1] >= 1.5
+                for c in named_bones["upper_wing_left"]["cubes"]
+            ), "H-39 needs a substantial upper ceramic blade")
+            self.assertTrue(any(
+                c["origin"][1] <= 4.5 and c["size"][1] >= 1.5
+                for c in named_bones["lower_wing_left"]["cubes"]
+            ), "H-39 needs a substantial lower ceramic blade")
+
 
             gun_data = json.loads((pack / "data/h39/data/guns/h39_data.json").read_text())
             self.assertEqual(gun_data["allow_attachment_types"],

@@ -17,6 +17,8 @@ REQUIRED = {
     "tw/h39/compat/H39MedicalCompat.class",
     "tw/h39/compat/H39PneumaticAudio.class",
     "assets/h39medical/sounds.json",
+    "assets/h39medical/lang/zh_tw.json",
+    "assets/h39medical/lang/en_us.json",
     "assets/h39medical/sounds/pneumatic_shot.ogg",
     "tw/h39/compat/H39RuntimeDiagnostics.class",
     "tw/h39/compat/H39MedicalHitHandler.class",
